@@ -37,7 +37,7 @@ hr {
     border-color: white;
     margin-bottom: 50px;
 }
-/*
+
 figure {
     background-color: rgba(255,255,255,.05);
     padding: 10px 10px 30px;
@@ -101,16 +101,14 @@ div {
 }
 .url{
     width: 100%;
-    position: absolute;
-  top: 50%;
-  left: 10%;
-  margin: -25px 0 0 -25px;
-  text-align: center;
+    height: 100%;
+    position: relative;    
+    text-align: center;
 }
 .boton{
-    position: absolute;
-    top: 50%;
-  left: 45%;
+    position: relative;
+    left: 45%;
+    
 }
 
 .running .loading {
