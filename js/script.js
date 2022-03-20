@@ -14,7 +14,7 @@ const Json =  () => {
 function printCharts(repositorio){
     document.body.classList.add('running') //para que aparezca en el front los canvas y cambiar la propiedad en el css
    // console.log(repositorio);
-   compareRadialChart(repositorio,'chart2')
+   compareRadialChart(repositorio,'chart1')
 }
 
 
@@ -53,7 +53,7 @@ function compareRadialChart(repositorio, id){  //función para grafico radial
         }
     }
 
-    new Chart('chart2',{type: 'polarArea',data, options})
+    new Chart('chart1',{type: 'polarArea',data, options})
 }
 
 //let url = document.getElementById("url").value;
