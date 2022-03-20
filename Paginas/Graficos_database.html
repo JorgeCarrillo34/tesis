@@ -26,13 +26,18 @@
 
       <div>
         <form action="">
-          <input
-            type="text"
-            name="url"
-            class="url"
-            id="url"
-            placeholder="Ingresa la url"
-          />
+         <center>
+          <select name="Lista_de_tablas">
+            
+           <option value="1"> Windows Vista </option> 
+            
+            <option value="1">Windows Vista</option> 
+         </select>
+         </center>
+          
+
+
+         <br>
           <button type="button" class="boton" onclick="Json()">Graficar</button>
         </form>
       </div>
@@ -51,34 +56,7 @@
           <canvas id="chart2"></canvas>
         </figure>
       </section>
-<!--
-      <section class="cols-1">
-        <figure>
-          <p>Gráfico lineal</p>
-          <h3>Construcciones por año</h3>
-          <canvas id="chart6"></canvas>
-        </figure>
-      </section>
 
-      <section class="cols-3">
-        <figure>
-          <p>Gráfico radial</p>
-          <h3>Altura</h3>
-          <canvas id="chart3"></canvas>
-        </figure>
-
-        <figure>
-          <p>Gráfico de <em>donut</em></p>
-          <h3>Modelos</h3>
-          <canvas id="chart4"></canvas>
-        </figure>
-
-        <figure>
-          <p>Gráfico de barras</p>
-          <h3>Fuerza G</h3>
-          <canvas id="chart5"></canvas>
-        </figure>
-    -->
 
     </section>  
     </main>
@@ -87,5 +65,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <script src="/js/estilosChart.js"></script>
   <script src="/js/script.js"></script>
-  <script src="/js/database.js"></script>
+  <script src="/js/consulta.js"></script>
 </html>
