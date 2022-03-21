@@ -13,6 +13,7 @@ const Json =  () => {
 
 function printCharts(repositorio){
     document.body.classList.add('running') //para que aparezca en el front los canvas y cambiar la propiedad en el css
+    document.body.classList.remove()
    // console.log(repositorio);
    compareRadialChart(repositorio,'chart1')
 }

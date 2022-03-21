@@ -1,4 +1,4 @@
-
+/*
 body {
   background: #181f38;
   font-family: "Poppins", monospace;
@@ -11,16 +11,16 @@ body {
 html {
   padding: 20px;
   font-weight: 300;
-}
+}*/
 
 main {
   padding: 60px;
 }
 
 section {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
-
+/*
 h1 {
   font-size: 3em;
   font-weight: 100;
@@ -39,7 +39,7 @@ hr {
   border-color: white;
   margin-bottom: 50px;
 }
-
+*/
 figure {
   background-color: rgba(255, 255, 255, 0.05);
   padding: 10px 10px 30px;
@@ -69,7 +69,7 @@ canvas {
 
 .cols-2 > * {
   width: 50%;
-  margin: 60px;
+  margin: 30px;
 }
 
 .cols-1 > * {
@@ -81,10 +81,11 @@ canvas {
   max-height: 300px;
 }
 
-section {
+.desaparece {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 
 .running section {
   opacity: 1;
@@ -95,6 +96,7 @@ section {
   border: none;
 }
 
+/*
 div {
   margin: auto;
   max-width: 50%;
@@ -110,6 +112,7 @@ div {
   position: relative;
   left: 45%;
 }
+*/
 
 .running .loading {
   display: none;
