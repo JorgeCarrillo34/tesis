@@ -49,18 +49,17 @@
  </div>
           <div class="text-center">
               <p class="text-center" style="margin-bottom: 20px;">
-                Ingresa el link Json de la siguiente pagina <a href="https://www.datos.gov.co/browse?category=Trabajo" target="_blank">Datos Abiertos</a>,
-                de ahi selecciona un repositorio, dale clic en API y luego copia el link JSON que aparece. Pegalo en el buscador de abajo y le das 
-                en graficar y listo.</p>
+                Tenemos opciones de repositorios para que escojas, tambien podras seleccionar que campos y que graficos deseas, además de poder copiar y
+                pegar el grafico donde quieras.</p>
                   <form action="">
-                    <input
+                   <!-- <input
                       type="text"
                       name="url"
                       class="url"
                       id="url"
                       placeholder="Ingresa la url"
-                    />
-                    <button onclick="Json()" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
+                    /> -->
+                    <button onclick="Json1();" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
                   </form>
           </div>
       </div>
@@ -72,20 +71,20 @@
     <main>
       <h3 class="text-center">Graficos generados</h3>
       <div class="row text-center" >
-        <h4 class="loading">Esperando ingreso de link...</h4>
+       <!-- <h4 class="loading">Esperando ingreso de link...</h4>
           <!--QUEDA PENDIENTE PONER INFORMACIÓN EN ESTE ESPACIO, RECORDAR QUE CON LA CLASE LOADING SE DESAPARECE CUANDO SE LE DA AL BOTON
           PUEDE SER LA INFO DE LOS REPOSITORIOS QUE ESTAN PARAMETRIZADOS EN LA HERRAMIENTA-->
           <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
             
             <figure>
-              <p>Gráfico radial</p>
+              <p>Gráfico de área polar</p>
               <h3>Comparativa global</h3>
               <canvas id="chart1"></canvas>
             </figure>
 
             <figure>
-              <p>Gráfico de área polar</p>
-              <h3>Montañas rusas por país</h3>
+              <p>Gráfico radial</p>
+              <h3>Estudiantes activos por municipio</h3>
               <canvas id="chart2"></canvas>
             </figure>
 
@@ -164,5 +163,4 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <script src="/js/estilosChart.js"></script>
   <script src="/js/script.js"></script>
-  <script src="/js/database.js"></script>
 </html>
