@@ -1,9 +1,4 @@
-const Json =  () => {
-    const url = document.getElementById("url").value;
-    fetch(`${url}`)
-        .then(response => response.json())
-        .then(data => printCharts(data));
-   };
+
 
    const Json1 =  async() => {
     const request = await fetch(`http://localhost:19990/db`, {
@@ -15,19 +10,43 @@ const Json =  () => {
         .then(data => printCharts(data));
    };
 
-/*
-    const db = (link) => {
-    fetch("http://localhost:19990/db", {
+
+//Funcion que carga el select de repositorios
+const Json =  async() => {
+    const request = await fetch(`http://localhost:19990/consultarRepos`, {
         method: "get",
-    }).then(() =>console.log("Se ejecuto youtube"));
+    });
+    var nuevoArray = new Array(1);
+    nuevoArray = await request.json(); 
+
+    const lista = document.getElementById('repos');
+    lista.innerHTML = '';
+
+    for (x of nuevoArray) {
+        const lista1 = document.createElement('option');
+        lista1.textContent = x.nombre_repositorio;
+        lista1.value = x.id;
+        lista.add(lista1);
+    } 
 };
 
-function Json() {
-    fetch("https://www.datos.gov.co/resource/vv8g-8u9u.json")
-    .then(response => response.json())
-    .then(data => printCharts(data));
+
+//Funcion que obtiene las columnas disponibles
+const Json2 =  async() => {
+    const lista = document.getElementById('repos');
+    console.log(lista.value);
+   
+    const request = await fetch(`http://localhost:19990/consultarColumnas/${lista}`,{
+        method: "get",
+    });
+ 
 };
-*/
+
+
+
+
+
+
 
 function printCharts(repositorio){
     document.body.classList.add('running') //para que aparezca en el front los canvas y cambiar la propiedad en el css

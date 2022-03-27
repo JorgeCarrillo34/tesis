@@ -27,7 +27,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#" ><strong style=""></strong> PR<i class="fa fa-globe"></i>TODATA<small ></small></a>
+              <a class="navbar-brand" href="index.html" ><strong style=""></strong> PR<i class="fa fa-globe"></i>TODATA<small ></small></a>
           </div>
       </div>
   </div>
@@ -51,6 +51,19 @@
               <p class="text-center" style="margin-bottom: 20px;">
                 Tenemos opciones de repositorios para que escojas, tambien podras seleccionar que campos y que graficos deseas, además de poder copiar y
                 pegar el grafico donde quieras.</p>
+
+           
+                  <form action="">
+                    <select name="listaRepos" id="repos" onclick="Json();">
+                      <option value="" > Seleccione una opción </option>
+                    </select>
+
+                    <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
+                  </form>
+
+
+                  
+                  <!--
                   <form action="">
                    <!-- <input
                       type="text"
@@ -58,9 +71,10 @@
                       class="url"
                       id="url"
                       placeholder="Ingresa la url"
-                    /> -->
+                    /> --
                     <button onclick="Json1();" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
                   </form>
+-->
           </div>
       </div>
   </div>
@@ -71,6 +85,9 @@
     <main>
       <h3 class="text-center">Graficos generados</h3>
       <div class="row text-center" >
+
+      
+
        <!-- <h4 class="loading">Esperando ingreso de link...</h4>
           <!--QUEDA PENDIENTE PONER INFORMACIÓN EN ESTE ESPACIO, RECORDAR QUE CON LA CLASE LOADING SE DESAPARECE CUANDO SE LE DA AL BOTON
           PUEDE SER LA INFO DE LOS REPOSITORIOS QUE ESTAN PARAMETRIZADOS EN LA HERRAMIENTA-->
