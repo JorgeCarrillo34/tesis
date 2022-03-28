@@ -52,17 +52,32 @@
                 Tenemos opciones de repositorios para que escojas, tambien podras seleccionar que campos y que graficos deseas, además de poder copiar y
                 pegar el grafico donde quieras.</p>
 
-           
+                <button onclick="Json();" type="button">Repositorios</button>
                   <form action="">
-                    <select name="listaRepos" id="repos" onclick="Json();">
+                    <select name="listaRepos" id="repos" >
                       <option value="" > Seleccione una opción </option>
                     </select>
 
-                    <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
+                    <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>
                   </form>
-
-
-                  
+        
+<!-- Este select es para las columnas -->
+        
+<div >
+<br>
+        <p class="text-center" style="margin-bottom: 20px; ">
+                A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
+        
+          <form action="">
+            <select name="listaColumnas" id="columnas" >
+              <option value="" > Seleccione una opción </option>
+            </select>
+              
+            <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
+            
+          </form>
+</div>
+                
                   <!--
                   <form action="">
                    <!-- <input

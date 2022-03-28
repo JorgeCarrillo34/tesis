@@ -18,6 +18,7 @@ const Json =  async() => {
     });
     var nuevoArray = new Array(1);
     nuevoArray = await request.json(); 
+    //console.log(nuevoArray)
 
     const lista = document.getElementById('repos');
     lista.innerHTML = '';
@@ -33,17 +34,28 @@ const Json =  async() => {
 
 //Funcion que obtiene las columnas disponibles
 const Json2 =  async() => {
-    const lista = document.getElementById('repos');
-    console.log(lista.value);
+
+    const id = document.getElementById('repos');
    
-    const request = await fetch(`http://localhost:19990/consultarColumnas/${lista}`,{
+    const request = await fetch(`http://localhost:19990/consultarColumnas/${id.value}`,{
         method: "get",
     });
- 
+
+    var cols = new Array(1);
+    cols = await request.json(); 
+
+    //console.log(cols)
+
+    const listaColum = document.getElementById('columnas');
+    listaColum.innerHTML = '';
+
+    for (x of cols) {
+        const lista1 = document.createElement('option');
+        lista1.textContent = x.nombre_campo;
+        lista1.value = x.id;
+        listaColum.add(lista1);
+    } 
 };
-
-
-
 
 
 
