@@ -14,6 +14,9 @@
 <!-- CUSTOM STYLE CSS -->
 <link href="/css/style.css" rel="stylesheet" />
 <link rel="stylesheet" href="/css/estilo.css" />
+<!--
+<link rel="stylesheet" href="/css/mobiscroll.javascript.min.css">
+-->
     
   </head>
 
@@ -27,7 +30,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html" ><strong style=""></strong> PR<i class="fa fa-globe"></i>TODATA<small ></small></a>
+              <a class="navbar-brand" href="index.html" ><strong ></strong> PR<i class="fa fa-globe"></i>TODATA<small ></small></a>
           </div>
       </div>
   </div>
@@ -50,46 +53,10 @@
           <div class="text-center">
               <p class="text-center" style="margin-bottom: 20px;">
                 Tenemos opciones de repositorios para que escojas, tambien podras seleccionar que campos y que graficos deseas, además de poder copiar y
-                pegar el grafico donde quieras.</p>
+                pegar el grafico donde quieras. Dale clic al siguiente boton e inicia tu proceso de graficación de datos nacionales.</p>
 
-                <button onclick="Json();" type="button">Repositorios</button>
-                  <form action="">
-                    <select name="listaRepos" id="repos" >
-                      <option value="" > Seleccione una opción </option>
-                    </select>
-
-                    <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>
-                  </form>
-        
-<!-- Este select es para las columnas -->
-        
-<div >
-<br>
-        <p class="text-center" style="margin-bottom: 20px; ">
-                A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
-        
-          <form action="">
-            <select name="listaColumnas" id="columnas" >
-              <option value="" > Seleccione una opción </option>
-            </select>
-              
-            <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
+                <button onclick="Json();" type="button" class="btn btn-info btn-lg btn-set">Repositorios</button>
             
-          </form>
-</div>
-                
-                  <!--
-                  <form action="">
-                   <!-- <input
-                      type="text"
-                      name="url"
-                      class="url"
-                      id="url"
-                      placeholder="Ingresa la url"
-                    /> --
-                    <button onclick="Json1();" type="button" class="btn btn-info btn-lg btn-set">Graficar</button>
-                  </form>
--->
           </div>
       </div>
   </div>
@@ -101,7 +68,78 @@
       <h3 class="text-center">Graficos generados</h3>
       <div class="row text-center" >
 
+      <!-- Este select es para las columnas -->
       
+        <div mbsc-page class="demo-multiple-select">
+          <div style="height:100%">
+            <form action="" style="color:black ;" class="desaparece">   
+              <p style="color:white ;">Selecciona un repositorio para iniciar.</p>
+            <!--
+              <label>
+                Multi-selección
+                <input mbsc-input id="repos-input" placeholder="Seleccione una opción" data-dropdown="true" data-input-style="outline" data-label-style="stacked" />
+              </label>
+              <select id="repos" multiple>
+                <option value="" > Seleccione una opción </option>
+              </select>-->
+
+            <select name="listaRepos" id="repos" >
+              <option value="" > Seleccione una opción </option>
+            </select>
+        
+                <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>
+            </form>
+          </div>
+        </div>
+<!--
+          <script>
+            mobiscroll.setOptions({
+            locale: mobiscroll.localeEs,                                          // Specify language like: locale: mobiscroll.localePl or omit setting to use default
+            theme: 'ios',                                                         // Specify theme like: theme: 'ios' or omit setting to use default
+            themeVariant: 'light'                                                 // More info about themeVariant: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-themeVariant
+            });
+    
+            mobiscroll.select('#repos', {
+            inputElement: document.getElementById('repos'),  // More info about inputElement: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-inputElement
+            selectMultiple: true,   
+            onChange: function(ev, inst) {
+            console.log(inst.getVal());    
+            }                                           // More info about selectMultiple: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-selectMultiple
+            });
+          </script>
+        -->
+
+        <div class="row text-center">
+        <br>
+                  <form action="" class="desaparece" style="color:black ;">
+                    <p class="text-center" style="margin-bottom: 20px; color:white ;">
+                        A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
+
+                    <select name="listaColumnas" id="columnas" >
+                      <option value="" > Seleccione una opción </option>
+                    </select>
+                      
+                    <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Continuar </button>
+                    
+                  </form>
+                </div>
+                  <br>
+                  <div class="row text-center">
+                  <form action="" class="desaparece" style="color:black ;">
+                    <p class="text-center" style="margin-bottom: 20px; color:white ;">
+                        Ahora selecciona los campos que deseas graficar</p>
+                        
+                    <select name="listaValores" id="valores" multiple >
+                      <option value="" > Seleccione una opción </option>
+                    </select>
+                      
+                    <button  id="submit" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
+                    
+                  </form>
+
+        </div>
+
+
 
        <!-- <h4 class="loading">Esperando ingreso de link...</h4>
           <!--QUEDA PENDIENTE PONER INFORMACIÓN EN ESTE ESPACIO, RECORDAR QUE CON LA CLASE LOADING SE DESAPARECE CUANDO SE LE DA AL BOTON
@@ -195,4 +233,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <script src="/js/estilosChart.js"></script>
   <script src="/js/script.js"></script>
+  <script src="/js/mobiscroll.javascript.min.js"></script>
 </html>

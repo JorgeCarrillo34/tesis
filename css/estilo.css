@@ -86,10 +86,19 @@ canvas {
   transition: opacity 0.3s;
 }
 
-
 .running section {
   opacity: 1;
 }
+
+.running1 form {
+  opacity: 1;
+}
+
+/*
+.running2 form {
+  opacity: 1;
+}
+*/
 
 .loading {
   position: relative;
