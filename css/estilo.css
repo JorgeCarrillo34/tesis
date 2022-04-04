@@ -130,3 +130,9 @@ div {
 select{
   margin: 0 auto;
 }
+
+
+.mayusculas{
+  text-transform: uppercase;
+  font-weight: bold;
+}

@@ -1,6 +1,7 @@
-let jsonCompleto;
-let campoGraf;
-var chart;
+let jsonCompleto, campoGraf;
+var chart, repo, nombreRepo;
+
+
 //CONTINUAR, pone los valores en lista
 function Json1 ()  {
  
@@ -46,6 +47,7 @@ function sacarColum(repositorio){
   }
 };
 
+
 //SACA LOS VALORES DEL JSON FILTRADOS POR CAMPO
 function sacarVal(repositorio,campo){
 console.log(campo + "Este es el campo pa"); //ERROR Primero
@@ -83,6 +85,8 @@ var lista1 = null;
  //Json1(uniqueChars);
 };
 
+
+
 //OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL
 const sacarJson = async (id) => {
   //mode: "no-cors"
@@ -104,6 +108,8 @@ const sacarJson = async (id) => {
     //.then((data) => sacarColum(data,"nombre_ocupacion")); //"PRIMERO ERROR"
     //console.log(data);
 }
+
+
 
 //CARGA EL SELECT DE LOS REPOSITORIOS DE LA BASE DE DATOS Y LA PONE EN LA LISTA
 const Json = async () => {
@@ -133,51 +139,20 @@ const Json = async () => {
 
 };
 
+
+
 //Funcion que obtiene las columnas disponibles CONTINUAR
 const Json2 = () => {
   //Validar los campos de json obteniendo el json
   document.body.classList.add("running1");
 
   var selectElement = document.getElementById("repos"); 
-
-  var repo = selectElement.value;
-
-  console.log(repo);
+  repo = selectElement.value;
+  nombreRepo = selectElement.options[selectElement.selectedIndex].text;;
 
   sacarJson(repo);
-  //sacarColum(jsonCompleto);
-/*
-const id = document.getElementById("repos");
-  const request = await fetch(
-    `http://localhost:19990/consultarColumnas/${id.value}`,
-    {
-      method: "get",
-    }
-    
-  );
-  var cols = new Array(1);
-  cols = await request.json();
-
-  //console.log(cols)
-
-  const listaColum = document.getElementById("columnas");
-  listaColum.innerHTML = "";
-
-  for (x of cols) {
-    const lista1 = document.createElement("option");
-    lista1.textContent = x.nombre_campo;
-    lista1.value = x.id;
-    listaColum.add(lista1);
-  }
-  */
 };
 
-
-//const Json3 = () => {
-  //Validar los valores del campo obteniendo el json
-  
-  //var selectElement = document.getElementById("valores"); 
-  //var valor = selectElement.value;
 
 
 //Funcion que obtiene los valores posibles a graficar CONTINUAR 2
@@ -207,6 +182,8 @@ document.getElementById('submit').onclick = function() {
 }
 
 
+
+
 function printCharts(repositorio,valor) {
 
   //AQUI DEBE IR UN IF COMO EL DEL CRITERIO PARA QUE DEPENDIENDO DEL REPOSITORIO SELECCIONE EL METODO DE GRAFICACIÓN
@@ -217,8 +194,16 @@ function printCharts(repositorio,valor) {
   console.log(campoGraf);
     //recorrer repositorio total, if (item=campo seleccionado en la lista) =
   //compareRadialChart(repositorio, "chart1", valor);
-  coursesRadialChart(repositorio, "chart2",valor,campoGraf);
+
+
+  let titulo = document.getElementById("figura2");
+  titulo.innerHTML = "";
+  titulo.innerText = campoGraf + " de " + nombreRepo;
+
+  coursesRadialChart(repositorio, "chart2", valor, campoGraf);
 };
+
+
 
 function coursesRadialChart(repositorio, id, valor,campo) {
  // const context = canvas.getContext(`${id}`);
@@ -229,9 +214,17 @@ function coursesRadialChart(repositorio, id, valor,campo) {
   //const courses = repositorio.filter(eachCourse => eachCourse.total_aprendices_activos > 50 );
   //console.log(valor.length);
   const labels = [];
+  let nom = null;
   for(let i= 0; i<valor.length; i++){
-     labels[i] = valor[i];
-  };
+    //Si el label tiene mas de 15 caracteres poner puntos suspensivos 
+    console.log("Este es el valor de label " + valor[i]);
+    if(valor[i].length > 20){
+        nom =  valor[i].substring(0,20)+"...";
+        labels[i] = nom;
+    }else{
+        labels[i] = valor[i];
+    }
+};
 
 var datos = [];
 
