@@ -91,23 +91,6 @@
             </form>
           </div>
         </div>
-<!--
-          <script>
-            mobiscroll.setOptions({
-            locale: mobiscroll.localeEs,                                          // Specify language like: locale: mobiscroll.localePl or omit setting to use default
-            theme: 'ios',                                                         // Specify theme like: theme: 'ios' or omit setting to use default
-            themeVariant: 'light'                                                 // More info about themeVariant: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-themeVariant
-            });
-    
-            mobiscroll.select('#repos', {
-            inputElement: document.getElementById('repos'),  // More info about inputElement: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-inputElement
-            selectMultiple: true,   
-            onChange: function(ev, inst) {
-            console.log(inst.getVal());    
-            }                                           // More info about selectMultiple: https://docs.mobiscroll.com/5-15-2/javascript/select#opt-selectMultiple
-            });
-          </script>
-        -->
 
         <div class="row text-center">
         <br>
@@ -115,9 +98,10 @@
                     <p class="text-center" style="margin-bottom: 20px; color:white ;">
                         A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
 
-                    <select name="listaColumnas" id="columnas" >
+                    <select name="listaColumnas" id="columnas" multiple>
                       <option value="" > Seleccione una opción </option>
                     </select>
+                    
                       
                     <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Continuar </button>
                     
@@ -132,6 +116,7 @@
                     <select name="listaValores" id="valores" multiple >
                       <option value="" > Seleccione una opción </option>
                     </select>
+                    <select name="" id="valores2"></select>
                       
                     <button  id="submit" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
                     
@@ -156,8 +141,6 @@
               <p>Gráfico radial</p>
               <h5 id="figura2" class="mayusculas"> </h5>
               <br>
-              
-
               <canvas id="chart2"></canvas>
             </figure>
 

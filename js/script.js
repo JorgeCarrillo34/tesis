@@ -14,10 +14,17 @@ function Json1 ()  {
   campoGraf = campo;
 //guardar para dos campos seleccionados como un arreglo
 
+  var selected = [];
+    for (var option of selectElement.options)
+    {
+        if (option.selected) {
+            selected.push(option.value);
+        }
+    }
 
-
+    console.log(selected);  //variables seleccionadas de los campos
   //var f = document.querySelector('.out').textContent = out;
-  sacarVal(jsonCompleto,campo);
+  sacarVal(jsonCompleto,selected);
   //console.log(jsonCompleto);
   //console.log(out);
 
@@ -50,20 +57,58 @@ function sacarColum(repositorio){
 
 //SACA LOS VALORES DEL JSON FILTRADOS POR CAMPO
 function sacarVal(repositorio,campo){
-console.log(campo + "Este es el campo pa"); //ERROR Primero
+console.log(campo.length + " Este es el campo pa"); 
+
 var lista1 = null;
+//var lista2 = null;
  var cols2 = new Array(1);
+ //var cols3 = new Array(1);
+
+ //if(campo.length > 1){
+  //const listaVal2 = document.getElementById("valores2");
+  //listaVal2.innerHTML = "";
+ //}
+
+
  const listaVal = document.getElementById("valores");
  listaVal.innerHTML = "";
+ 
 
  for (var i=0; i < repositorio.length; i++) {
-   
-    cols2.push(repositorio[i][`${campo}`]);
+    //if(campo.length > 1){
+      //for(var i=0; i < campo.length; i++)
+      //cols3.push(repositorio[i][`${campo[i]}`]);
+      //if(campo.length > 0){
+        //cols2.push(repositorio[i][`${campo[i]}`]);
+      //}
+    //}else{
+      cols2.push(repositorio[i][`${campo}`]);
+    //}
+  }
+
+  
     //console.log(repositorio[i].campo.textContent);
- }
+ 
 //guardar en un vector los valores e ir filtrando para que no este repetido
 
- let uniqueChars = [...new Set(cols2)]; //quita los repetidos
+ let uniqueChars = [...new Set(cols2)];
+
+ //if(campo.length > 1){
+  //let uniqueChars2 = [...new Set(cols3)];
+  //for(var i=0;i < uniqueChars2.length; i++){
+    //lista1 = document.createElement("option");
+    //if(uniqueChars2[i] != undefined  ){
+      //lista2 = document.createElement("option");
+      //lista2.textContent =uniqueChars2[i];
+      //lista2.value = uniqueChars2[i];
+      //listaVal2.add(lista2);
+    //}//else{
+      //console.log("Ok pa");
+    //}
+   //}
+   console.log(uniqueChars);
+
+//  } //quita los repetidos
  //console.log(uniqueChars[1]);
  //console.log(uniqueChars);
 
@@ -79,6 +124,12 @@ var lista1 = null;
   //}
  }
  
+ 
+
+
+ console.log(uniqueChars);
+ 
+
  return uniqueChars;
 
  
@@ -193,13 +244,14 @@ function printCharts(repositorio,valor) {
   console.log(valor);
   console.log(campoGraf);
     //recorrer repositorio total, if (item=campo seleccionado en la lista) =
-  //compareRadialChart(repositorio, "chart1", valor);
+  compareRadialChart(repositorio, "chart1", valor);
 
 
   let titulo = document.getElementById("figura2");
   titulo.innerHTML = "";
   titulo.innerText = campoGraf + " de " + nombreRepo;
 
+  //compareRadialChart(repositorio, "chart1", valor,campoGraf);
   coursesRadialChart(repositorio, "chart2", valor, campoGraf);
 };
 
@@ -295,36 +347,40 @@ var datos = [];
 
 
 
-function compareRadialChart(repositorio, id,valor) {
-  //función para grafico radial
-  //console.log(repositorio[0]);
-  /*
-    if(item )
-    */
+function compareRadialChart(repositorio, id,valor,campo) {
+  if(chart != undefined ||  chart != null) 
+  {chart.destroy();}
+
+  const labels = [];
+  let nom = null;
+  for(let i= 0; i<valor.length; i++){
+    //Si el label tiene mas de 15 caracteres poner puntos suspensivos 
+    console.log("Este es el valor de label " + valor[i]);
+    if(valor[i].length > 20){
+        nom =  valor[i].substring(0,20)+"...";
+        labels[i] = nom;
+    }else{
+        labels[i] = valor[i];
+    }
+};
+
+var datos = [];
+
+  for(let i= 0; i<valor.length; i++){
+    
+    datos[i] =repositorio.filter(
+      (eachData) => eachData[`${campo}`] === `${valor[i]}`
+      ).length
+      console.log(datos);
+    };
 
   const data = {
     //parametros de data
-    labels: ["La estrella", "Caldas", "Itagui", "Medellin", "Bello"],
+    labels: labels,
     datasets: [
       {
         //for arreglo de valores
-        data: [
-          repositorio.filter(
-            (eachData) => eachData.nombre_municipio_curso === "LA ESTRELLA"
-          ).length,
-          repositorio.filter(
-            (eachData) => eachData.nombre_municipio_curso === "CALDAS"
-          ).length,
-          repositorio.filter(
-            (eachData) => eachData.nombre_municipio_curso === "ITAGUI"
-          ).length,
-          repositorio.filter(
-            (eachData) => eachData.nombre_municipio_curso === "MEDELLIN"
-          ).length,
-          repositorio.filter(
-            (eachData) => eachData.nombre_municipio_curso === "BELLO"
-          ).length,
-        ],
+        data: datos,
         borderWidth: 1,
         borderColor: styles.color.solids.map((eachColor) => eachColor),
         backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
@@ -352,5 +408,5 @@ function compareRadialChart(repositorio, id,valor) {
     },
   };
 
-  new Chart(id, { type: "polarArea", data, options });
+  new Chart(id, { type: "line", data, options });
 };
