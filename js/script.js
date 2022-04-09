@@ -24,7 +24,7 @@ function Json1 ()  {
 
     console.log(selected);  //variables seleccionadas de los campos
   //var f = document.querySelector('.out').textContent = out;
-  sacarVal(jsonCompleto,selected);
+  sacarVal(jsonCompleto,campo);
   //console.log(jsonCompleto);
   //console.log(out);
 
@@ -57,60 +57,26 @@ function sacarColum(repositorio){
 
 //SACA LOS VALORES DEL JSON FILTRADOS POR CAMPO
 function sacarVal(repositorio,campo){
-console.log(campo.length + " Este es el campo pa"); 
+console.log(campo + " Este es el campo pa"); 
 
 var lista1 = null;
 //var lista2 = null;
  var cols2 = new Array(1);
- //var cols3 = new Array(1);
-
- //if(campo.length > 1){
-  //const listaVal2 = document.getElementById("valores2");
-  //listaVal2.innerHTML = "";
- //}
-
 
  const listaVal = document.getElementById("valores");
  listaVal.innerHTML = "";
  
 
  for (var i=0; i < repositorio.length; i++) {
-    //if(campo.length > 1){
-      //for(var i=0; i < campo.length; i++)
-      //cols3.push(repositorio[i][`${campo[i]}`]);
-      //if(campo.length > 0){
-        //cols2.push(repositorio[i][`${campo[i]}`]);
-      //}
-    //}else{
+    
       cols2.push(repositorio[i][`${campo}`]);
-    //}
+
   }
 
-  
-    //console.log(repositorio[i].campo.textContent);
  
 //guardar en un vector los valores e ir filtrando para que no este repetido
 
  let uniqueChars = [...new Set(cols2)];
-
- //if(campo.length > 1){
-  //let uniqueChars2 = [...new Set(cols3)];
-  //for(var i=0;i < uniqueChars2.length; i++){
-    //lista1 = document.createElement("option");
-    //if(uniqueChars2[i] != undefined  ){
-      //lista2 = document.createElement("option");
-      //lista2.textContent =uniqueChars2[i];
-      //lista2.value = uniqueChars2[i];
-      //listaVal2.add(lista2);
-    //}//else{
-      //console.log("Ok pa");
-    //}
-   //}
-   console.log(uniqueChars);
-
-//  } //quita los repetidos
- //console.log(uniqueChars[1]);
- //console.log(uniqueChars);
 
  for(var i=0;i < uniqueChars.length; i++){
   //lista1 = document.createElement("option");
@@ -119,21 +85,11 @@ var lista1 = null;
     lista1.textContent =uniqueChars[i];
     lista1.value = uniqueChars[i];
     listaVal.add(lista1);
-  }//else{
-    //console.log("Ok pa");
-  //}
+  }
  }
- 
- 
 
+ //return uniqueChars;
 
- console.log(uniqueChars);
- 
-
- return uniqueChars;
-
- 
- //Json1(uniqueChars);
 };
 
 
@@ -244,24 +200,33 @@ function printCharts(repositorio,valor) {
   console.log(valor);
   console.log(campoGraf);
     //recorrer repositorio total, if (item=campo seleccionado en la lista) =
-  compareRadialChart(repositorio, "chart1", valor);
+  //compareRadialChart(repositorio, "chart1", valor);
 
 
   let titulo = document.getElementById("figura2");
   titulo.innerHTML = "";
   titulo.innerText = campoGraf + " de " + nombreRepo;
 
-  //compareRadialChart(repositorio, "chart1", valor,campoGraf);
-  coursesRadialChart(repositorio, "chart2", valor, campoGraf);
+  radialChart(repositorio, "chart1", valor,campoGraf);
+  console.log("buena pa");
+  donasChart(repositorio, "chart2", valor, campoGraf);
+  //barrasChart(repositorio, "chart3", valor, campoGraf);
+  
 };
 
 
 
-function coursesRadialChart(repositorio, id, valor,campo) {
+function radialChart(repositorio, id, valor,campo) {
+
+  //var grapharea = document.getElementById(id).getContext("2d");
+  //var chart = new Chart(id, { type: "polarArea", data, options});
+  //if(chart != undefined ||  chart != null) 
+  //{chart.destroy();}
  // const context = canvas.getContext(`${id}`);
  
-  if(chart != undefined ||  chart != null) 
-  {chart.destroy();}
+  //if(chart != undefined ||  chart != null) 
+  //{chart.destroy();}
+
  // context.clearRect(0, 0, canvas.width, canvas.height);
   //const courses = repositorio.filter(eachCourse => eachCourse.total_aprendices_activos > 50 );
   //console.log(valor.length);
@@ -331,6 +296,8 @@ var datos = [];
     },
   };
 
+  
+
   //event.preventDefault();
     //var parent = document.getElementById(id);
     //var child = document.getElementById(id);          
@@ -339,17 +306,18 @@ var datos = [];
 
   chart = new Chart(id, { type: "polarArea", data, options });
 
-  
-  
-
 };
 
 
 
 
-function compareRadialChart(repositorio, id,valor,campo) {
-  if(chart != undefined ||  chart != null) 
-  {chart.destroy();}
+function donasChart(repositorio, id,valor,campo) {
+
+  //var chart = new Chart(id, { type: "polarArea", data, options});
+  //if(chart != undefined ||  chart != null) 
+  //{chart.destroy();}
+  //if(chart != undefined ||  chart != null) 
+  //{chart.destroy();}
 
   const labels = [];
   let nom = null;
@@ -364,6 +332,8 @@ function compareRadialChart(repositorio, id,valor,campo) {
     }
 };
 
+
+
 var datos = [];
 
   for(let i= 0; i<valor.length; i++){
@@ -373,33 +343,26 @@ var datos = [];
       ).length
       console.log(datos);
     };
+    console.log(datos);
+    console.log(labels);
 
   const data = {
     //parametros de data
     labels: labels,
     datasets: [
       {
-        //for arreglo de valores
         data: datos,
-        borderWidth: 1,
-        borderColor: styles.color.solids.map((eachColor) => eachColor),
-        backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
+       
+        borderColor: styles.color.solids.map(eachColor => eachColor),
+        backgroundColor: styles.color.alphas.map(eachColor => eachColor),
+        borderWidth: 1
       },
     ],
   };
 
   const options = {
     //estilos y opciones del grafico
-    scale: {
-      gridLines: {
-        //lineas
-        color: "#444",
-      },
-      ticks: {
-        //quitar etiquetas
-        display: false,
-      },
-    },
+    
     legend: {
       position: "right",
       labels: {
@@ -407,6 +370,83 @@ var datos = [];
       },
     },
   };
+  
 
-  new Chart(id, { type: "line", data, options });
+  chart = new Chart(id, { type: "doughnut", data, options });
 };
+
+
+function barrasChart(repositorio, id, valor,campo) {
+  // const context = canvas.getContext(`${id}`);
+  //var grapharea = document.getElementById(id).getContext("2d");
+  //var chart = new Chart(id, { type: "polarArea", data, options});
+  //if(chart != undefined ||  chart != null) 
+  //{chart.destroy();}
+
+  
+   const labels = [];
+   const sel = repositorio.filter(eachData => eachData.valor);
+
+   
+   let nom = null;
+   for(let i= 0; i<valor.length; i++){
+     //Si el label tiene mas de 15 caracteres poner puntos suspensivos 
+     console.log("Este es el valor de label " + valor[i]);
+     //if(valor[i].length > 20){
+       //  nom =  valor[i].substring(0,20)+"...";
+         //labels[i] = nom;
+     //}else{
+         labels[i] = sel.map(eachData => eachData[`${valor[i]}`]);
+     //}
+ };
+ 
+ var datos = [];
+ 
+   for(let i= 0; i<valor.length; i++){
+     
+     datos[i] =sel.map(
+       eachData => eachData[`${valor[i]}`]
+       ).length
+       console.log(datos);
+     };
+   
+  console.log(datos);
+   
+ 
+   const data = {
+     //parametros de data
+     labels: labels,
+     
+     datasets: [
+       {
+         //for arreglo de valores
+         //label: ['virtual', 'presencial'],
+         data: datos,
+         //data:courses.map(eachCourse => eachCourse.total_aprendices_activos),
+         borderColor: styles.color.solids.map((eachColor) => eachColor),
+         backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
+         
+       },
+     ],
+   };
+ 
+   const options = {
+     //estilos y opciones del grafico
+     
+     legend: {
+       position: false,
+       
+     },
+   };
+ 
+   //event.preventDefault();
+     //var parent = document.getElementById(id);
+     //var child = document.getElementById(id);          
+     //parent.remove(child);            
+     //parent.appendChild ='<canvas id="chart2"></canvas>'; 
+
+     
+ 
+   chart = new Chart(id, { type: "bar", data, options });
+ 
+ };
