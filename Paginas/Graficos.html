@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>ProtoData</title>
     
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" 
+    integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
     
  <!-- BOOTSTRAP CORE STYLE CSS -->
  <link href="/css/bootstrap.css" rel="stylesheet" />
@@ -116,7 +119,7 @@
                     <select name="listaValores" id="valores" multiple >
                       <option value="" > Seleccione una opción </option>
                     </select>
-                    <select name="" id="valores2"></select>
+                   
                       
                     <button  id="submit" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
                     
@@ -124,56 +127,84 @@
 
         </div>
 
+       
 
-
-       <!-- <h4 class="loading">Esperando ingreso de link...</h4>
-          <!--QUEDA PENDIENTE PONER INFORMACIÓN EN ESTE ESPACIO, RECORDAR QUE CON LA CLASE LOADING SE DESAPARECE CUANDO SE LE DA AL BOTON
-          PUEDE SER LA INFO DE LOS REPOSITORIOS QUE ESTAN PARAMETRIZADOS EN LA HERRAMIENTA-->
+        <!-- GRAFICOS   -->
           <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
             
-            <figure>
-              <p>Gráfico de área polar</p>
-              <h3>Comparativa global</h3>
-              <canvas id="chart1"></canvas>
-            </figure>
-
-            <figure>
-              <p>Gráfico radial</p>
-              <h5 id="figura2" class="mayusculas"> </h5>
-              <br>
-              <canvas id="chart2"></canvas>
-            </figure>
+           
 
           </section>
-  <!--
-          <section class="cols-1 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
-            <figure>
-              <p>Gráfico lineal</p>
-              <h3>Construcciones por año</h3>
-              <canvas id="chart6"></canvas>
-            </figure>
-          </section>
--->
-          <section class="cols-3 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
-            <figure>
-              <p>Gráfico radial</p>
-              <h3>Altura</h3>
-              <canvas id="chart3"></canvas>
-            </figure>
- <!--
-            <figure>
-              <p>Gráfico de <em>donut</em></p>
-              <h3>Modelos</h3>
-              <canvas id="chart4"></canvas>
-            </figure>
 
+          <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
+         
+        </section>
+
+ 
+        <section class="desaparece mayusculas">
+        <br>
+          <figure >
+            <p>Gráfico de área polar</p>
+            <h5 id="figura1" > </h5>
+            <br>
+            <canvas id="chart1"></canvas>
+            
+          </figure>
+          <br>
+
+          <br>
+          <figure>
+            
+            <p>Gráfico radial</p>
+            <h5 id="figura2" > </h5>
+            <br>
+            <canvas id="chart2"></canvas>
+            
+          </figure>
+          <br>
+
+          <br>
             <figure>
               <p>Gráfico de barras</p>
-              <h3>Fuerza G</h3>
-              <canvas id="chart5"></canvas>
+              <h5 id="figura3" ></h5>
+              <canvas id="chart3"></canvas>
+              
             </figure>
+            <br>
+     
+            <br>
+            <figure>
+             
+              <p>Gráfico de lineas</p>
+              <h5 id="figura4"></h5>
+              <canvas id="chart4"></canvas>
+           
+            </figure>
+            <br>
+
+            <br>
+            <figure>
+              
+              <p>Gráfico de radar</p>
+              <h5 id="figura5"></h5>
+              <canvas id="chart5"></canvas>
+        
+            </figure>
+            <br>
+
+            <br>
+            <figure>
+              
+              <p>Gráfico de pastel</p>
+              <h5 id="figura6"></h5>
+              <canvas id="chart6"></canvas>
+        
+            </figure>
+            <br>
+
+
           </section>
-    -->
+    
       </div>
   </div>
 
@@ -216,8 +247,10 @@
 
   </body>
 
+ 
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
   <script src="/js/estilosChart.js"></script>
   <script src="/js/script.js"></script>
-  
+ 
 </html>

@@ -78,7 +78,8 @@ canvas {
 }
 
 #chart6 {
-  max-height: 300px;
+  width: 1150px;
+  max-height: 575px;
 }
 
 .desaparece {
