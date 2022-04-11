@@ -270,6 +270,7 @@ function printCharts(repositorio,valor) {
     if (valor.length == 2) {
       lineasChart(repositorio, "chart4", valor, campoGraf);
     }else if(valor.length >= 3){
+      lineasChart(repositorio, "chart4", valor, campoGraf);
       radarChart(repositorio, "chart5", valor, campoGraf);
     }    
   }  
