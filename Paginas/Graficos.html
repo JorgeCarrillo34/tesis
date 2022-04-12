@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" 
     integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script> 
     
  <!-- BOOTSTRAP CORE STYLE CSS -->
  <link href="/css/bootstrap.css" rel="stylesheet" />
@@ -132,24 +133,25 @@
         <!-- GRAFICOS   -->
           <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
             
-           
-
           </section>
-
           <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
-         
+        
         </section>
 
  
         <section class="desaparece mayusculas">
         <br>
+  
           <figure >
             <p>Gráfico de área polar</p>
             <h5 id="figura1" > </h5>
             <br>
             <canvas id="chart1"></canvas>
-            
+      
           </figure>
+
+          <button id="button1" class="btn btn-info" onclick = "descargarRadial()">Descargar chart como PNG</button>   
+         
           <br>
 
           <br>
@@ -161,6 +163,7 @@
             <canvas id="chart2"></canvas>
             
           </figure>
+            <button id="button2" class="btn btn-info" onclick = "descargarDonas();">Descargar chart como PNG</button>   
           <br>
 
           <br>
@@ -170,38 +173,34 @@
               <canvas id="chart3"></canvas>
               
             </figure>
+                <button id="button3" class="btn btn-info" onclick = "descargarBarras();">Descargar chart como PNG</button>   
+            <br>
             <br>
      
-            <br>
             <figure>
-             
               <p>Gráfico de lineas</p>
               <h5 id="figura4"></h5>
               <canvas id="chart4"></canvas>
-           
             </figure>
+                <button id="button4" class="btn btn-info" onclick = "descargarLineas();">Descargar chart como PNG</button>   
+            <br>
             <br>
 
-            <br>
             <figure>
-              
               <p>Gráfico de radar</p>
               <h5 id="figura5"></h5>
               <canvas id="chart5"></canvas>
-        
             </figure>
+                  <button id="downloadBtn" class="btn btn-info" onclick = "descargarRadar();">Descargar chart como PNG</button>   
             <br>
-
             <br>
             <figure>
-              
               <p>Gráfico de pastel</p>
               <h5 id="figura6"></h5>
               <canvas id="chart6"></canvas>
-        
             </figure>
+                  <button id="button6" class="btn btn-info" onclick = "descargarPastel()">Descargar chart como PNG</button>   
             <br>
-
 
           </section>
     

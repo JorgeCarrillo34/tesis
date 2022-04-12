@@ -52,6 +52,7 @@ figure p {
 
 canvas {
   width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* grid */
@@ -78,7 +79,7 @@ canvas {
 }
 
 #chart6 {
-  width: 1150px;
+  width: 1200px;
   max-height: 575px;
 }
 

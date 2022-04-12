@@ -1,5 +1,6 @@
 let jsonCompleto, campoGraf, campoNum;
 var chart, repo, nombreRepo,barras=false,num,unico=false;
+var chart1;
 
 
 //OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL
@@ -225,6 +226,18 @@ document.getElementById('submit').onclick = function() {
 }
 
 
+Chart.defaults.global.defaultFontColor = '#fff';
+Chart.defaults.global.elements.line.borderWidth = 1;
+Chart.defaults.global.elements.rectangle.borderWidth = 1;
+Chart.defaults.scale.gridLines.color = '#444';
+Chart.defaults.scale.ticks.display = false;
+
+
+
+
+
+
+
 //FUNCION QUE CREA LOS GRAFICOS 
 function printCharts(repositorio,valor) {
 
@@ -280,7 +293,7 @@ function printCharts(repositorio,valor) {
 //FUNCION QUE CREA EL GRAFICO RADIAL
 function radialChart(repositorio, id, valor,campo) {
 
-  //var grapharea = document.getElementById(id).getContext("2d");
+   //var grapharea = document.getElementById(id).getContext("2d");
   //var chart = new Chart(id, { type: "polarArea", data, options});
   //if(chart != undefined ||  chart != null) 
   //{chart.destroy();}
@@ -292,8 +305,8 @@ function radialChart(repositorio, id, valor,campo) {
   //const courses = repositorio.filter(eachCourse => eachCourse.total_aprendices_activos > 50 );
   //console.log(valor.length);
 
+  
   const labels = [];
-  let nom = null;
   for(let i= 0; i < valor.length; i++){
     //Si el label tiene mas de 15 caracteres poner puntos suspensivos 
     //console.log("Este es el valor de label " + valor[i]);
@@ -303,7 +316,7 @@ function radialChart(repositorio, id, valor,campo) {
     //}else{
         labels[i] = valor[i];
     //}
-};
+  };
 
 var datos = [];
 
@@ -328,6 +341,8 @@ var datos = [];
       
     }
   
+  
+  
 
   const data = {
     //parametros de data
@@ -335,8 +350,6 @@ var datos = [];
     
     datasets: [
       {
-        //for arreglo de valores
-        //label: ['virtual', 'presencial'],
         data: datos,
         //data:courses.map(eachCourse => eachCourse.total_aprendices_activos),
         borderColor: styles.color.solids.map((eachColor) => eachColor),
@@ -346,39 +359,38 @@ var datos = [];
     ],
   };
 
-
-  const options = {
-    //estilos y opciones del grafico
-    scale: {
-      gridLines: {
-        //lineas
-        color: "#444",
-      },
-      pointLabels: {
-        fontColor: "#fff",
-      },
-      ticks: {
-        //quitar etiquetas
-        display: false,
-      },
-    },
-    legend: {
-      position: "bottom",
-      labels: {
-        fontColor: "#fff",
-      },
-    },
+  
+  const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
   };
 
-  
 
-  //event.preventDefault();
-    //var parent = document.getElementById(id);
-    //var child = document.getElementById(id);          
-    //parent.remove(child);            
-    //parent.appendChild ='<canvas id="chart2"></canvas>'; 
+  const config = {
+     //estilos y opciones del grafico
+    legend: {
+      position: "bottom",
+    },
+    type: 'polarArea',
+    data: data,
+    plugins: [plugin],
+    options:{
+      legend: {
+        position: "bottom",
+      },
+    }
+      
+  };
 
-  chart = new Chart(id, { type: "polarArea", data, options });
+
+  chart = new Chart(id,config);
 
 };
 
@@ -439,79 +451,39 @@ var datos = [];
     ],
   };
 
-  const options = {
-    //estilos y opciones del grafico
-    
-    legend: {
-      position: "bottom",
-      labels: {
-        fontColor: "#fff",
+  const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
+
+  const config = {
+     //estilos y opciones del grafico
+   
+    type: 'doughnut',
+    data: data,
+    plugins: [plugin],
+    options:{
+      legend: {
+        position: "bottom",
       },
-    },
+    }
+      
+    
   };
-  
 
-  chart = new Chart(id, { type: "doughnut", data, options });
+
+  chart = new Chart(id,config);
+
+
 };
-
-
-
-//FUNCION QUE CREA EL GRAFICO DE PASTEL
-function pastelChart(repositorio, id, valor,campo) {
-
-  const labels = [];
-    //guarda los labels del grafico
-    let nom = null;
-    for(let i= 0; i<valor.length; i++){
-        labels[i] = valor[i];  
-    };
-  
-//Filtrar las canntidades de veces que se encuentre el registro numerico y sumarlo
-var datos = [];
-
-  for(let i= 0; i<valor.length; i++){
-    
-    datos[i] = repositorio.filter(
-      (eachData) => eachData[`${campo}`] === `${valor[i]}`)
-    };
-    var cont= [], c=0;
-    
-    for (let j = 0; j < valor.length; j++) {
-      for (let i = 0; i < datos[j].length; i++) {
-        c += parseInt(datos[j][i][`${num}`],10);
-        //console.log("Este son los valores " + datos[j][i][`${num}`]);
-      }
-      cont[j] = c;
-      c=0;
-    }
-
- 
-    //armado de grafico
-   const data = {
-     //parametros de data
-     labels: labels,     
-     datasets: [
-       {
-         data: cont,
-         borderColor: styles.color.solids.map((eachColor) => eachColor),
-         backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
-       },
-     ],
-   };
- 
-  const options = {
-  //estilos y opciones del grafico
-  legend: {
-  
-    position: "bottom",
-      labels: { 
-        fontColor: "#FFF",
-      }, 
-    }
-  };
-   chart = new Chart(id, { type: "pie", data, options});
- };
-
 
 
 //FUNCION QUE CREA EL GRAFICO DE BARRAS
@@ -546,8 +518,6 @@ var datos = [];
     for (let i = 0; i < labels.length; i++) {
       labels[i] = labels[i] + " = " + cont[i];
     }
-
-   
  
     //armado de grafico
    const data = {
@@ -564,18 +534,41 @@ var datos = [];
      ],
    };
  
-   const options = {
-      //estilos y opciones del grafico
-      legend: {
-      display: true,
-      labels: { 
-        fontColor: "#FFF",
-      }, 
-      },
+
+
+   const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
+
+  const config = {
+     //estilos y opciones del grafico
+   
+    type: 'bar',
+    data: data,
+    plugins: [plugin], 
+    options: {
       scales:{
         yAxes:[{
           gridLines:{
-            display: true,
+            display: false,
+          },
+          ticks: {
+            display : true,
+            beginAtZero : true
+          }
+        }],
+        xAxes:[{
+          gridLines:{
+            display: false,
           },
           ticks: {
             display : true,
@@ -583,11 +576,13 @@ var datos = [];
           }
         }]
       },
-    };
- 
-   chart = new Chart(id, { type: "bar", data, options});
- };
+    }
+  };
 
+
+  chart = new Chart(id,config);
+
+ };
 
 
  //FUNCION QUE CREA EL GRAFICO DE LINEAS
@@ -629,51 +624,69 @@ var datos = [];
     for (let i = 0; i < labels.length; i++) {
       labels[i] = labels[i] + " = " + cont[i];
     }
- 
-    //armado de grafico
+
+       //armado de grafico
    const data = {
-     //parametros de data
-     labels: labels,     
-     datasets: [
-       {
+     
+    //parametros de data
+    labels: labels,     
+    datasets: [
+      {
         label: campo,
-         data: cont,
-         borderColor: styles.color.solids.map((eachColor) => eachColor),
-         backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
+        data: cont,
+        borderColor: styles.color.solids.map((eachColor) => eachColor),
+        backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
+      },
+    ],
+  };
+
+
+   const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
+ 
+    const config = {
+      //estilos y opciones del grafico
+    
+     type: 'line',
+     data: data,
+     plugins: [plugin], 
+     options: {
+       scales:{
+         yAxes:[{
+           gridLines:{
+             display: false,
+           },
+           ticks: {
+             display : true,
+             beginAtZero : true
+           }
+         }],
+         xAxes:[{
+           gridLines:{
+             display: false,
+           },
+           ticks: {
+             display : true,
+             beginAtZero : true
+           }
+         }]
        },
-     ],
+     }
    };
  
-   const options = {
-      //estilos y opciones del grafico
-      legend: {
-      display: true,
-      labels: { 
-        fontColor: "#FFF",
-      }, 
-      },
-      scales:{
-        yAxes:[{
-          gridLines:{
-            display: false
-          },
-          ticks: {
-            display : true,
-            beginAtZero : true
-          }
-        }],
-        xAxes:[{
-          ticks: {
-            display : true,
-            beginAtZero : true
-          }
-        }]
-      },
-    };
- 
-   chart = new Chart(id, { type: "line", data, options});
+   
+   chart = new Chart(id,config);
  };
-
 
 
 //FUNCION QUE CREA EL GRAFICO RADIAL
@@ -730,23 +743,208 @@ var datos = [];
      ],
    };
  
-   const options = {
-      //estilos y opciones del grafico
-      legend: {
-      //display: true,
-      labels: { 
-        fontColor: "#FFF",
-      }, 
-      },
-        ticks: {
-        display : true,
-        beginAtZero : true
-      },
+   const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
+
+  const config = {
+     //estilos y opciones del grafico
+    legend: {
+      position: "bottom",
+    },
+    type: 'radar',
+    data: data,
+    plugins: [plugin],
+  };
+
+
+  chart = new Chart(id,config);
+ };
+
+
+ //FUNCION QUE CREA EL GRAFICO DE PASTEL
+function pastelChart(repositorio, id, valor,campo) {
+
+  const labels = [];
+    //guarda los labels del grafico
+    let nom = null;
+    for(let i= 0; i<valor.length; i++){
+        labels[i] = valor[i];  
     };
+  
+//Filtrar las canntidades de veces que se encuentre el registro numerico y sumarlo
+var datos = [];
+
+  for(let i= 0; i<valor.length; i++){
+    
+    datos[i] = repositorio.filter(
+      (eachData) => eachData[`${campo}`] === `${valor[i]}`)
+    };
+    var cont= [], c=0;
+    
+    for (let j = 0; j < valor.length; j++) {
+      for (let i = 0; i < datos[j].length; i++) {
+        c += parseInt(datos[j][i][`${num}`],10);
+        //console.log("Este son los valores " + datos[j][i][`${num}`]);
+      }
+      cont[j] = c;
+      c=0;
+    }
+
+
+  //Seccion para sacar los porcentajes en los label
+  var total = 0,formula=0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i];
+  }
  
-   chart = new Chart(id, { type: "radar", data, options});
+  
+
+  //for que retorna los datos en el label
+  for (let i = 0; i < labels.length; i++) {
+    formula = ((cont[i]/total)*100).toFixed(1);
+    labels[i] = labels[i] + " = " + cont[i] + " (" +formula+"%)" + "\n";
+  }
+ 
+  //armado de grafico
+   const data = {
+     //parametros de data
+     labels: labels,     
+     datasets: [
+       {
+         data: cont,
+         borderColor: styles.color.solids.map((eachColor) => eachColor),
+         backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
+       },
+     ],
+   };
+ 
+   const plugin = {
+    id: 'custom_canvas_background_color',
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext('2d');
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = "#181f38";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
+
+  const config = {
+     //estilos y opciones del grafico
+    legend: {
+      position: "bottom",
+    },
+    type: 'pie',
+    data: data,
+    plugins: [plugin],
+    options:{
+      legend: {
+        position: "bottom",
+      },
+    }
+  };
+
+
+  chart = new Chart(id,config);
+
+
  };
 
 
 
 
+
+
+
+//FUNCION QUE CREA EL GRAFICO RADIAL
+function descargarRadial() {
+  var canvas = document.getElementById("chart1");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ };
+
+ 
+//FUNCION QUE CREA EL GRAFICO DONAS
+function descargarDonas() {
+  var canvas = document.getElementById("chart2");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ };
+
+
+//FUNCION QUE CREA EL GRAFICO BARRAS
+function descargarBarras() {
+  var canvas = document.getElementById("chart3");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ };
+
+
+//FUNCION QUE CREA EL GRAFICO LIENAS
+function descargarLineas() {
+  var canvas = document.getElementById("chart4");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ };
+ 
+//FUNCION QUE CREA EL GRAFICO BARRAS
+function descargarRadar() {
+  var canvas = document.getElementById("chart5");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ }; 
+ 
+//FUNCION QUE CREA EL GRAFICO Pastel
+function descargarPastel() {
+  var canvas = document.getElementById("chart6");
+  // Crear un elemento <a>
+  let enlace = document.createElement('a');
+  // El título
+  enlace.download = 'download.jpeg';
+  // Convertir la imagen a Base64 y ponerlo en el enlace
+  enlace.href = canvas.toDataURL("image/jpeg",1.0);
+  // Hacer click en él
+  enlace.click();
+ };
