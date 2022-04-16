@@ -76,30 +76,31 @@
       
         <div mbsc-page class="demo-multiple-select">
           <div style="height:100%">
-            <form action="" style="color:black ;" class="desaparece">   
-              <p style="color:white ;">Selecciona un repositorio para iniciar.</p>
-            <!--
+            <form action="" style="color:black ;" class="desaparece-1", id="primerF">   
+             <!-- <p style="color:white ;">Selecciona un repositorio para iniciar.</p>
+            
               <label>
                 Multi-selección
                 <input mbsc-input id="repos-input" placeholder="Seleccione una opción" data-dropdown="true" data-input-style="outline" data-label-style="stacked" />
               </label>
               <select id="repos" multiple>
                 <option value="" > Seleccione una opción </option>
-              </select>-->
+              </select>
 
             <select name="listaRepos" id="repos" >
               <option value="" > Seleccione una opción </option>
             </select>
         
-                <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>
+                <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>-->
             </form>
           </div>
         </div>
 
         <div class="row text-center">
         <br>
-                  <form action="" class="desaparece" style="color:black ;">
-                    <p class="text-center" style="margin-bottom: 20px; color:white ;">
+                  <form action="" class="desaparece-2" style="color:black ;">
+
+                   <!-- <p class="text-center" style="margin-bottom: 20px; color:white ;">
                         A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
 
                     <select name="listaColumnas" id="columnas" multiple>
@@ -108,13 +109,14 @@
                     
                       
                     <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Continuar </button>
-                    
+                    -->
                   </form>
                 </div>
                   <br>
                   <div class="row text-center">
-                  <form action="" class="desaparece" style="color:black ;">
-                    <p class="text-center" style="margin-bottom: 20px; color:white ;">
+
+                  <form action="" class="desaparece-3" style="color:black ;">
+                 <!--   <p class="text-center" style="margin-bottom: 20px; color:white ;">
                         Ahora selecciona los campos que deseas graficar</p>
                         
                     <select name="listaValores" id="valores" multiple >
@@ -123,7 +125,7 @@
                    
                       
                     <button  id="submit" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
-                    
+                    -->
                   </form>
 
         </div>
@@ -131,45 +133,41 @@
        
 
         <!-- GRAFICOS   -->
-          <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
-            
-          </section>
-          <section class="cols-2 desaparece" style=" margin: 0; padding-top: 10px; padding-bottom: 10px;">
-        
-        </section>
+          
 
  
-        <section class="desaparece mayusculas">
-        <br>
-  
-          <figure >
+        <section id="sect"  class="desaparece mayusculas">
+        
+  <!--
+          <figure>
             <p>Gráfico de área polar</p>
-            <h5 id="figura1" > </h5>
+            
             <br>
-            <canvas id="chart1"></canvas>
+            <canvas id="chart1"> </canvas>
+              
       
           </figure>
 
-          <button id="button1" class="btn btn-info" onclick = "descargarRadial()">Descargar chart como PNG</button>   
-         
-          <br>
-
-          <br>
+          <button id="button1" class="btn btn-info" onclick = "descargarRadial()" >Descargar chart como PNG</button> 
+        -->
+          
+          <!--
           <figure>
             
             <p>Gráfico radial</p>
-            <h5 id="figura2" > </h5>
+            
             <br>
             <canvas id="chart2"></canvas>
             
           </figure>
-            <button id="button2" class="btn btn-info" onclick = "descargarDonas();">Descargar chart como PNG</button>   
-          <br>
-
+            <button id="button2" class="btn btn-info" onclick = "descargarDonas();">Descargar chart como PNG</button> 
+            
+          
+          
           <br>
             <figure>
               <p>Gráfico de barras</p>
-              <h5 id="figura3" ></h5>
+              
               <canvas id="chart3"></canvas>
               
             </figure>
@@ -179,7 +177,7 @@
      
             <figure>
               <p>Gráfico de lineas</p>
-              <h5 id="figura4"></h5>
+              
               <canvas id="chart4"></canvas>
             </figure>
                 <button id="button4" class="btn btn-info" onclick = "descargarLineas();">Descargar chart como PNG</button>   
@@ -188,7 +186,7 @@
 
             <figure>
               <p>Gráfico de radar</p>
-              <h5 id="figura5"></h5>
+              
               <canvas id="chart5"></canvas>
             </figure>
                   <button id="downloadBtn" class="btn btn-info" onclick = "descargarRadar();">Descargar chart como PNG</button>   
@@ -196,12 +194,12 @@
             <br>
             <figure>
               <p>Gráfico de pastel</p>
-              <h5 id="figura6"></h5>
+              
               <canvas id="chart6"></canvas>
             </figure>
                   <button id="button6" class="btn btn-info" onclick = "descargarPastel()">Descargar chart como PNG</button>   
             <br>
-
+-->
           </section>
     
       </div>

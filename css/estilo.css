@@ -84,8 +84,16 @@ canvas {
 }
 
 .desaparece {
-  opacity: 0;
-  transition: opacity 0.3s;
+  margin: 10px;
+}
+.desaparece-1 {
+  margin: 10px;
+}
+.desaparece-2 {
+  margin: 10px;
+}
+.desaparece-3 {
+  margin: 10px;
 }
 
 .running section {
@@ -132,6 +140,8 @@ div {
 select{
   margin: 0 auto;
 }
+
+
 
 
 .mayusculas{
