@@ -4,7 +4,7 @@ var chart1, chart2, chart3,chart4,chart5,chart6, chart7;
 const lista= document.getElementById("sect");
 //var c1,c2,c3,c4,c5,c6;
 
-Chart.defaults.global.defaultFontColor = '#fff';
+Chart.defaults.global.defaultFontColor = 'black';
 Chart.defaults.global.elements.line.borderWidth = 1;
 Chart.defaults.global.elements.rectangle.borderWidth = 1;
 Chart.defaults.scale.gridLines.color = '#444';
@@ -298,6 +298,9 @@ const Json2 = () => {
 const json3 = () => {
   //console.log("HOLA AOPAAAAAAAAA")
     
+  
+
+
     var selected = [];
     for (var option of document.getElementById('valores').options)
     {
@@ -495,68 +498,78 @@ function printCharts(repositorio,valor) {
   //GRAFICOS CON UNA SOLA COLUMNA SELECCIONADA
   if(unico == true ){
     
-    if(!document.getElementById("chart1")){
-    chart_1();
-    radialChart(repositorio, "chart1", valor,campoGraf, titulo);
-    chart_2();
-    donasChart(repositorio, "chart2", valor, campoGraf, titulo2);
+    if(valor<1){
+      window.alert("Selecciona minimo un valor por favor");
     }else{
-      radialChart(repositorio, "chart1", valor,campoGraf, titulo);
-      donasChart(repositorio, "chart2", valor, campoGraf, titulo2);
-    }
-    
-    if(document.getElementById("chart3") || document.getElementById("chart4") || document.getElementById("chart5") ||  document.getElementById("chart6")){
-      //console.log("HOLA POAAAAAAAAA");
-      document.getElementById("3f").remove();
-      document.getElementById("4f").remove();
-      document.getElementById("5f").remove();
-      document.getElementById("6f").remove();
-      document.getElementById("button3").remove();
-      document.getElementById("button4").remove();
-      document.getElementById("button5").remove();
-      document.getElementById("button6").remove();
-    }
+      if(!document.getElementById("chart1")){
+        chart_1();
+        radialChart(repositorio, "chart1", valor,campoGraf, titulo);
+        chart_2();
+        donasChart(repositorio, "chart2", valor, campoGraf, titulo2);
+        }else{
+          radialChart(repositorio, "chart1", valor,campoGraf, titulo);
+          donasChart(repositorio, "chart2", valor, campoGraf, titulo2);
+        }
+        
+        if(document.getElementById("chart3") || document.getElementById("chart4") || document.getElementById("chart5") ||  document.getElementById("chart6")){
+          //console.log("HOLA POAAAAAAAAA");
+          document.getElementById("3f").remove();
+          document.getElementById("4f").remove();
+          document.getElementById("5f").remove();
+          document.getElementById("6f").remove();
+          document.getElementById("button3").remove();
+          document.getElementById("button4").remove();
+          document.getElementById("button5").remove();
+          document.getElementById("button6").remove();
+        }
+    } 
     //unico=false;
   }
 
   //GRAFICOS CON DOS COLUMNAS SELECCIONADAS
   if(barras == true){
-    if(!document.getElementById("chart3")){
-    chart_3();
-    barrasChart(repositorio, "chart3", valor, campoGraf, titulo3);
-
-    chart_6();
-    pastelChart(repositorio, "chart6", valor, campoGraf, titulo6);
-    }else{
-      barrasChart(repositorio, "chart3", valor, campoGraf, titulo3);
-      pastelChart(repositorio, "chart6", valor, campoGraf, titulo6);
-    }
-    if (valor.length == 2) {
-      if(!document.getElementById("chart4")){
-      chart_4();
-      lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
+      if(valor<1){
+        window.alert("Selecciona minimo un valor por favor");
       }else{
-        lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
+      if(!document.getElementById("chart3")){
+      chart_3();
+      barrasChart(repositorio, "chart3", valor, campoGraf, titulo3);
+
+      chart_6();
+      pastelChart(repositorio, "chart6", valor, campoGraf, titulo6);
+      }else{
+        barrasChart(repositorio, "chart3", valor, campoGraf, titulo3);
+        pastelChart(repositorio, "chart6", valor, campoGraf, titulo6);
       }
-    }else if(valor.length >= 3){
-      if(!document.getElementById("chart4")){
+      if (valor.length == 2) {
+        if(!document.getElementById("chart4")){
         chart_4();
         lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
-        chart_5();
-        radarChart(repositorio, "chart5", valor, campoGraf, titulo5);
-      }else{
-        lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
-        radarChart(repositorio, "chart5", valor, campoGraf, titulo5);
-      }     
-    }
-    if(document.getElementById("chart1") || document.getElementById("chart2")){
-      document.getElementById("1f").remove();
-      document.getElementById("2f").remove();
-      document.getElementById("button1").remove();
-      document.getElementById("button2").remove();
-    } 
-    barras=false;   
-  }  
+        }else{
+          lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
+        }
+      }else if(valor.length >= 3){
+        if(!document.getElementById("chart4")){
+          chart_4();
+          lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
+          chart_5();
+          radarChart(repositorio, "chart5", valor, campoGraf, titulo5);
+        }else{
+          lineasChart(repositorio, "chart4", valor, campoGraf, titulo4);
+          radarChart(repositorio, "chart5", valor, campoGraf, titulo5);
+        }//else if(
+          
+            
+      }
+      if(document.getElementById("chart1") || document.getElementById("chart2")){
+        document.getElementById("1f").remove();
+        document.getElementById("2f").remove();
+        document.getElementById("button1").remove();
+        document.getElementById("button2").remove();
+      } 
+      //barras=false;   
+    }  
+  }
 };
 
 //FUNCION QUE CREA EL GRAFICO RADIAL
@@ -619,7 +632,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -633,11 +646,16 @@ var datos = [];
     options:{
       legend: {
         position: "bottom",
+        labels:{
+          fontColor: "black"
+        }
       },
       title: {
         display: true,
-        text: titulo
+        text: titulo,
+        fontColor: "black"
      },
+     
     }
       
   };
@@ -688,11 +706,6 @@ var datos = [];
     
   }
 
-
-
-
-
-
   const data = {
     //parametros de data
     labels: labels,
@@ -713,7 +726,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -729,10 +742,14 @@ var datos = [];
     options:{
       legend: {
         position: "bottom",
+        labels:{
+          fontColor: "black"
+        }
       },
       title: {
         display: true,
-        text: titulo
+        text: titulo,
+        fontColor: "black"
      },
     }
       
@@ -804,7 +821,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -825,7 +842,8 @@ var datos = [];
           },
           ticks: {
             display : true,
-            beginAtZero : true
+            beginAtZero : true,
+            fontColor: "black"
           }
         }],
         xAxes:[{
@@ -834,14 +852,21 @@ var datos = [];
           },
           ticks: {
             display : true,
-            beginAtZero : true
+            beginAtZero : true,
+            fontColor: "black"
           }
         }]
       },
       title: {
         display: true,
-        text: titulo
+        text: titulo,
+        fontColor: "black"
      },
+     legend:{
+        labels:{
+          fontColor: "black"
+        }
+      }
     }
   };
 
@@ -914,7 +939,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -935,7 +960,8 @@ var datos = [];
            },
            ticks: {
              display : true,
-             beginAtZero : true
+             beginAtZero : true,
+             fontColor: "black"
            }
          }],
          xAxes:[{
@@ -944,14 +970,21 @@ var datos = [];
            },
            ticks: {
              display : true,
-             beginAtZero : true
+             beginAtZero : true,
+             fontColor: "black"
            }
          }]
        },
        title: {
         display: true,
-        text: titulo
+        text: titulo,
+        fontColor: "black"
      },
+     legend:{
+      labels:{
+        fontColor: "black"
+      }
+    }
      }
    };
  
@@ -963,11 +996,7 @@ var datos = [];
 
 //FUNCION QUE CREA EL GRAFICO RADIAL
  function radarChart(repositorio, id, valor,campo, titulo) {
-  // const context = canvas.getContext(`${id}`);
-  //var grapharea = document.getElementById(id).getContext("2d");
-  //var chart = new Chart(id, { type: "polarArea", data, options});
-  //if(chart != undefined ||  chart != null) 
-  //{chart.destroy();}
+  
 
   const labels = [];
     //guarda los labels del grafico
@@ -1010,7 +1039,8 @@ var datos = [];
         label: campo,
          data: cont,
          borderColor: styles.color.solids.map((eachColor) => eachColor),
-         backgroundColor: styles.color.alphas.map((eachColor) => eachColor)
+         backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
+         pointLabels: 'red'
        },
      ],
    };
@@ -1021,7 +1051,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -1037,11 +1067,15 @@ var datos = [];
     options:{
       legend: {
         position: "bottom",
+        labels:{
+          fontColor: "black"
+        }
       },
       title: {
         display: true,
-        text: titulo
-     },
+        text: titulo,
+        fontColor: "black",
+     }
     }
   };
 
@@ -1115,7 +1149,7 @@ var datos = [];
       const ctx = chart.canvas.getContext('2d');
       ctx.save();
       ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = "#181f38";
+      ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, chart.width, chart.height);
       ctx.restore();
     }
@@ -1131,10 +1165,14 @@ var datos = [];
     options:{
       legend: {
         position: "bottom",
+        labels:{
+          fontColor: "black"
+        }
       },
       title: {
         display: true,
-        text: titulo
+        text: titulo,
+        fontColor: "black"
      },
     }
   };
