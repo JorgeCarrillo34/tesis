@@ -9,6 +9,7 @@ var chart,
 var chart1, chart2, chart3, chart4, chart5, chart6, chart7;
 const lista = document.getElementById("sect");
 
+
 //OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL
 const sacarJson = async (id) => {
   //mode: "no-cors"
@@ -92,7 +93,17 @@ function sacarColum(repositorio) {
       item.startsWith("nombre_") ||
       item.startsWith("modalidad_") ||
       item.startsWith("formato_") ||
-      item.startsWith("total_")
+      item.startsWith("total_") ||
+      item.startsWith("centro_") ||
+      item.startsWith("ciudad_mesa") || 
+      item.startsWith("medio_de_conservaci_n") ||
+      item.startsWith("mesa_") ||
+      item.startsWith("municipio") ||
+      item.startsWith("n_mero") ||
+      item.startsWith("nivel_") ||
+      item.startsWith("desagregacion_") ||
+      item.startsWith("a_o")
+       
     ) {
       i++;
       const lista1 = document.createElement("option");
@@ -311,6 +322,9 @@ const json3 = () => {
 };
 
 function chart_1() {
+
+
+
   const fig = document.createElement("figure");
   fig.setAttribute("id", "1f");
   //c1=document.getElementById("1f");
@@ -322,9 +336,11 @@ function chart_1() {
   const can = document.createElement("canvas");
   can.setAttribute("id", "chart1");
 
+  
+
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarRadial();");
+  but.setAttribute("onclick", "descargarChart('chart1');");
   but.style.marginBottom = "20px";
   but.setAttribute("id", "button1");
   but.setAttribute("type", "button");
@@ -349,7 +365,7 @@ function chart_2() {
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarDonas();");
+  but.setAttribute("onclick", "descargarChart('chart2');");
   but.setAttribute("id", "button2");
   but.style.marginBottom = "20px";
   but.setAttribute("type", "button");
@@ -374,7 +390,7 @@ function chart_3() {
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarBarras();");
+  but.setAttribute("onclick", "descargarChart('chart3');");
   but.style.marginBottom = "20px";
   but.setAttribute("type", "button");
   but.setAttribute("id", "button3");
@@ -400,8 +416,9 @@ function chart_4() {
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarLineas();");
+  but.setAttribute("onclick", "descargarChart('chart4');");
   but.setAttribute("id", "button4");
+  but.style.marginBottom = "20px";
   but.setAttribute("type", "button");
   but.style.marginBottom = "20px";
   but.textContent = "Descargar chart como PNG";
@@ -425,7 +442,7 @@ function chart_5() {
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarRadar();");
+  but.setAttribute("onclick", "descargarChart('chart5');");
   but.setAttribute("id", "button5");
   but.style.marginBottom = "20px";
   but.setAttribute("type", "button");
@@ -450,7 +467,7 @@ function chart_6() {
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarPastel();");
+  but.setAttribute("onclick", "descargarChart('chart6');");
   but.setAttribute("id", "button6");
   but.style.marginBottom = "20px";
   but.setAttribute("type", "button");
@@ -487,9 +504,7 @@ console.log(repositorio.filter((eachData) => eachData[`${campoGraf}`] === `${val
   titulo6 = "Número de " + campoNum + " por " + nombreRepo;
 
 if (
-  jsonCompleto.filter((eachData) => eachData[`${campoGraf}`] === `${sel[0]}`)
-    .length != 0
-) {
+  jsonCompleto.filter((eachData) => eachData[`${campoGraf}`] === `${sel[0]}`).length != 0) {
     //GRAFICOS CON UNA SOLA COLUMNA SELECCIONADA
     if (unico == true) {
   if (valor < 1) {
@@ -1266,74 +1281,11 @@ function pastelChart(repositorio, id, valor, campo, titulo) {
  
 }
 
-//FUNCION QUE CREA EL GRAFICO RADIAL
-function descargarRadial() {
-  var canvas = document.getElementById("chart1");
-  // Crear un elemento <a>
-  let enlace = document.createElement("a");
-  // El título
-  enlace.download = "download.jpeg";
-  // Convertir la imagen a Base64 y ponerlo en el enlace
-  enlace.href = canvas.toDataURL("image/jpeg", 1.0);
-  // Hacer click en él
-  enlace.click();
-}
+//FUNCION QUE DESCARGA EL GRAFICO 
+function descargarChart(id) {
 
-//FUNCION QUE CREA EL GRAFICO DONAS
-function descargarDonas() {
-  var canvas = document.getElementById("chart2");
-  // Crear un elemento <a>
-  let enlace = document.createElement("a");
-  // El título
-  enlace.download = "download.jpeg";
-  // Convertir la imagen a Base64 y ponerlo en el enlace
-  enlace.href = canvas.toDataURL("image/jpeg", 1.0);
-  // Hacer click en él
-  enlace.click();
-}
-
-//FUNCION QUE CREA EL GRAFICO BARRAS
-function descargarBarras() {
-  var canvas = document.getElementById("chart3");
-  // Crear un elemento <a>
-  let enlace = document.createElement("a");
-  // El título
-  enlace.download = "download.jpeg";
-  // Convertir la imagen a Base64 y ponerlo en el enlace
-  enlace.href = canvas.toDataURL("image/jpeg", 1.0);
-  // Hacer click en él
-  enlace.click();
-}
-
-//FUNCION QUE CREA EL GRAFICO LIENAS
-function descargarLineas() {
-  var canvas = document.getElementById("chart4");
-  // Crear un elemento <a>
-  let enlace = document.createElement("a");
-  // El título
-  enlace.download = "download.jpeg";
-  // Convertir la imagen a Base64 y ponerlo en el enlace
-  enlace.href = canvas.toDataURL("image/jpeg", 1.0);
-  // Hacer click en él
-  enlace.click();
-}
-
-//FUNCION QUE CREA EL GRAFICO BARRAS
-function descargarRadar() {
-  var canvas = document.getElementById("chart5");
-  // Crear un elemento <a>
-  let enlace = document.createElement("a");
-  // El título
-  enlace.download = "download.jpeg";
-  // Convertir la imagen a Base64 y ponerlo en el enlace
-  enlace.href = canvas.toDataURL("image/jpeg", 1.0);
-  // Hacer click en él
-  enlace.click();
-}
-
-//FUNCION QUE CREA EL GRAFICO Pastel
-function descargarPastel() {
-  var canvas = document.getElementById("chart6");
+ 
+  var canvas = document.getElementById(id);
   // Crear un elemento <a>
   let enlace = document.createElement("a");
   // El título
