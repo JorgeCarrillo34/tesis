@@ -6,7 +6,16 @@ var chart,
   num,
   unico = false,
   sel = [];
-var chart1, chart2, chart3, chart4, chart5, chart6, chart7;
+var chart1,
+  chart2,
+  chart3,
+  chart4,
+  chart5,
+  chart6,
+  chart7,
+  chart8,
+  chart9,
+  chart10;
 const lista = document.getElementById("sect");
 
 //OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL
@@ -139,7 +148,7 @@ function sacarColum(repositorio, c) {
         //console.log("ITEM = " + item + i);
       }
     }
-  } else {
+  } else if (c == 2 || c == 3) {
     listaT = document.getElementById("columnasT");
     listaT.innerHTML = "";
     listaN = document.getElementById("columnasN");
@@ -204,7 +213,7 @@ function sacarVal(repositorio, campo) {
   listaVal.innerHTML = "";
   console.log(campo.length);
 
-  if (campo.length == 1) {
+  if (campo.length == 1 && document.getElementById("opci").value == 1) {
     document.getElementById("div2").style.visibility = "visible";
     document.getElementById("sect").style.visibility = "visible";
     document.getElementById("div1").style.visibility = "visible";
@@ -223,10 +232,11 @@ function sacarVal(repositorio, campo) {
   } else if (campo.length == 0) {
     window.alert("Debes seleccionar una columna,por favor vuelve a intentarlo");
     document.getElementById("div2").style.visibility = "hidden";
-  } else if (campo.length == 2) {
+  } else if ((campo.length == 2 && document.getElementById("opci").value == 2) || (campo.length == 3 && document.getElementById("opci").value == 3) ) {
     document.getElementById("div2").style.visibility = "visible";
     document.getElementById("sect").style.visibility = "visible";
     document.getElementById("div1").style.visibility = "visible";
+
     if (isNaN(repositorio[1][campo[0]]) && isNaN(repositorio[1][campo[1]])) {
       window.alert(
         "Debes seleccionar por lo menos una columna numerica, por favor vuelve a intentarlo"
@@ -258,16 +268,19 @@ function sacarVal(repositorio, campo) {
       barras = true;
       unico = false;
     }
-  } else {
+  } else if(campo.length > 3){
     window.alert(
-      "Solo puedes seleccionar como máximo 2 columnas,por favor vuelve a intentarlo"
+      "Solo puedes seleccionar como máximo 3 columnas,por favor vuelve a intentarlo"
+    );
+  }else{
+    window.alert(
+      "Por favor selecciona máximo 2 valores de tipo numerico"
     );
   }
 
   //console.log(cols2);
 
   //guardar en un vector los valores e ir filtrando para que no este repetido
-
   let uniqueChars = [...new Set(cols2)];
 
   //console.log(uniqueChars);
@@ -410,8 +423,11 @@ const Json2 = () => {
     op1.textContent = "1";
     const op2 = document.createElement("option");
     op2.textContent = "2";
+    const op3 = document.createElement("option");
+    op3.textContent = "3";
     opt0.add(op1);
     opt0.add(op2);
+    opt0.add(op3);
 
     const but1 = document.createElement("button");
     but1.setAttribute("class", "btn btn-info btn-lg btn-set");
@@ -448,7 +464,7 @@ function cantidadCol() {
     if (c == 1) {
       console.log("aaaaaaaaa 1");
       const p1 = document.createElement("p");
-      p1.textContent = "Campo de tipo texto";
+      p1.textContent = "Campo de tipo Texto:";
       p1.style.marginTop = "30px";
       p1.style.color = "white";
       p1.style.fontWeight = "bold";
@@ -471,10 +487,10 @@ function cantidadCol() {
       prueba.appendChild(but);
 
       lista.appendChild(prueba);
-    } else {
+    } else if (c == 2) {
       console.log("aaaaaaaaa 2");
       const p1 = document.createElement("p");
-      p1.textContent = "Campo de tipo texto";
+      p1.textContent = "Campo de tipo Texto:";
       p1.style.marginTop = "30px";
       p1.style.color = "white";
       p1.style.fontWeight = "bold";
@@ -496,6 +512,47 @@ function cantidadCol() {
       opt1.setAttribute("id", "columnasN");
       opt1.setAttribute("class", "caja dos");
       //opt.setAttribute("multiple", true);
+      opt1.textContent = "Seleccione una opción de campo numérico";
+
+      const but = document.createElement("button");
+      but.setAttribute("class", "btn btn-info btn-lg btn-set");
+      but.setAttribute("onclick", "Json1();");
+      but.setAttribute("id", "button10");
+      but.setAttribute("type", "button");
+      but.textContent = "Continuar";
+
+      prueba.appendChild(p1);
+      prueba.appendChild(opt);
+      prueba.appendChild(p2);
+      prueba.appendChild(opt1);
+
+      prueba.appendChild(but);
+
+      lista.appendChild(prueba);
+    } else {
+      const p1 = document.createElement("p");
+      p1.textContent = "Campo de tipo Texto:";
+      p1.style.marginTop = "30px";
+      p1.style.color = "white";
+      p1.style.fontWeight = "bold";
+
+      const opt = document.createElement("select");
+      opt.setAttribute("id", "columnasT");
+      opt.setAttribute("class", "caja dos");
+      //opt.setAttribute("multiple", true);
+      opt.textContent = "Seleccione una opción de campo Texto:";
+
+      const p2 = document.createElement("p");
+      p2.textContent = "Campo de tipo Numerico:";
+      p2.style.margin = "10px 0px 0px";
+      p2.style.color = "white";
+      p2.style.fontWeight = "bold";
+      p2.setAttribute("id", "prf");
+
+      const opt1 = document.createElement("select");
+      opt1.setAttribute("id", "columnasN");
+      opt1.setAttribute("class", "caja dos");
+      opt1.setAttribute("multiple", true);
       opt1.textContent = "Seleccione una opción de campo numérico";
 
       const but = document.createElement("button");
@@ -526,59 +583,105 @@ function cantidadCol() {
     const prueba = document.getElementById("div5");
 
     if (c == 1 && document.getElementById("columnasN")) {
+      console.log("buena opa opc1");
       document.getElementById("prf").remove();
       document.getElementById("columnasN").remove();
 
-      var selectElement = document.getElementById("repos");
-      repo = selectElement.value;
-      nombreRepo = selectElement.options[selectElement.selectedIndex].text;
-      sacarJson(repo, c);
-    } else if (!document.getElementById("columnasN") && c == 2) {
-      console.log("buena opa");
-      document.getElementById("button10").remove();
-      const p2 = document.createElement("p");
-      p2.textContent = "Campo de tipo Numerico:";
-      p2.style.margin = "10px 0px 0px";
-      p2.style.color = "white";
-      p2.style.fontWeight = "bold";
-      p2.setAttribute("id", "prf");
+      // var selectElement = document.getElementById("repos");
+      // repo = selectElement.value;
+      // nombreRepo = selectElement.options[selectElement.selectedIndex].text;
+      // sacarJson(repo, c);
+    } else if (c == 2) {
+      console.log("buena opa opc2");
+      //document.getElementById("button10").remove();
+      if (!document.getElementById("columnasN")) {
+        document.getElementById("button10").remove();
+        const p2 = document.createElement("p");
+        p2.textContent = "Campo de tipo Numerico:";
+        p2.style.margin = "10px 0px 0px";
+        p2.style.color = "white";
+        p2.style.fontWeight = "bold";
+        p2.setAttribute("id", "prf");
 
-      const opt1 = document.createElement("select");
-      opt1.setAttribute("id", "columnasN");
-      opt1.setAttribute("class", "caja dos");
-      //opt.setAttribute("multiple", true);
-      opt1.textContent = "Seleccione una opción de campo numérico";
+        const opt1 = document.createElement("select");
+        opt1.setAttribute("id", "columnasN");
+        opt1.setAttribute("class", "caja dos");
+        //opt1.removeAttribute("multiple", true);
+        opt1.textContent = "Seleccione una opción de campo numérico";
 
-      const but = document.createElement("button");
-      but.setAttribute("class", "btn btn-info btn-lg btn-set");
-      but.setAttribute("onclick", "Json1();");
-      but.setAttribute("id", "button10");
-      but.setAttribute("type", "button");
-      but.textContent = "Continuar";
+        const but = document.createElement("button");
+        but.setAttribute("class", "btn btn-info btn-lg btn-set");
+        but.setAttribute("onclick", "Json1();");
+        but.setAttribute("id", "button10");
+        but.setAttribute("type", "button");
+        but.textContent = "Continuar";
 
-      prueba.appendChild(p2);
-      prueba.appendChild(opt1);
-      prueba.appendChild(but);
+        prueba.appendChild(p2);
+        prueba.appendChild(opt1);
+        prueba.appendChild(but);
 
-      lista.appendChild(prueba);
+        lista.appendChild(prueba);
+      } else {
+        const opt1 = document.getElementById("columnasN");
+        if (opt1.hasAttribute("multiple") == true) {
+          opt1.removeAttribute("multiple");
+        }
+      }
 
-      var selectElement = document.getElementById("repos");
-      repo = selectElement.value;
-      nombreRepo = selectElement.options[selectElement.selectedIndex].text;
-      sacarJson(repo, c);
+      // var selectElement = document.getElementById("repos");
+      // repo = selectElement.value;
+      // nombreRepo = selectElement.options[selectElement.selectedIndex].text;
+      // sacarJson(repo, c);
 
       //console.log(document.getElementById("columnasN") == null)
-    } else {
-      var selectElement = document.getElementById("repos");
-      repo = selectElement.value;
-      nombreRepo = selectElement.options[selectElement.selectedIndex].text;
-      sacarJson(repo, c);
+    } else if (
+      c == 3 &&
+      (document.getElementById("columnasN") ||
+        !document.getElementById("columnasN"))
+    ) {
+      console.log("buena opa opc3");
+      if (document.getElementById("columnasN")) {
+        const opt1 = document.getElementById("columnasN");
+        opt1.setAttribute("multiple", true);
+      } else {
+        document.getElementById("button10").remove();
+        const p2 = document.createElement("p");
+        p2.textContent = "Campo de tipo Numerico:";
+        p2.style.margin = "10px 0px 0px";
+        p2.style.color = "white";
+        p2.style.fontWeight = "bold";
+        p2.setAttribute("id", "prf");
+
+        const opt1 = document.createElement("select");
+        opt1.setAttribute("id", "columnasN");
+        opt1.setAttribute("class", "caja dos");
+        opt1.setAttribute("multiple", true);
+        opt1.textContent = "Seleccione una opción de campo numérico";
+
+        const but = document.createElement("button");
+        but.setAttribute("class", "btn btn-info btn-lg btn-set");
+        but.setAttribute("onclick", "Json1();");
+        but.setAttribute("id", "button10");
+        but.setAttribute("type", "button");
+        but.textContent = "Continuar";
+
+        prueba.appendChild(p2);
+        prueba.appendChild(opt1);
+        prueba.appendChild(but);
+
+        lista.appendChild(prueba);
+      }
+
+      // var selectElement = document.getElementById("repos");
+      // repo = selectElement.value;
+      // nombreRepo = selectElement.options[selectElement.selectedIndex].text;
+      // sacarJson(repo, c);
     }
 
-    // var selectElement = document.getElementById("repos");
-    // repo = selectElement.value;
-    // nombreRepo = selectElement.options[selectElement.selectedIndex].text;
-    // sacarJson(repo,c);
+    var selectElement = document.getElementById("repos");
+    repo = selectElement.value;
+    nombreRepo = selectElement.options[selectElement.selectedIndex].text;
+    sacarJson(repo,c);
   }
 }
 
@@ -603,150 +706,23 @@ const json3 = () => {
 };
 
 //PASAR PARAMETRO IDFIGURA, TEXTO PARRAFO, IDBOTON, IDCANVAS
-function chart_1() {
+function chart(id,titulo,chart) {
   const fig = document.createElement("figure");
-  fig.setAttribute("id", "1f");
+  fig.setAttribute("id", id+"f");
   //c1=document.getElementById("1f");
 
   const p = document.createElement("p");
   p.style.color = "white";
-  p.textContent = "Gráfico de área polar";
+  p.textContent = titulo;
 
   const can = document.createElement("canvas");
-  can.setAttribute("id", "chart1");
+  can.setAttribute("id", chart);
 
   const but = document.createElement("button");
   but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart1');");
+  but.setAttribute("onclick", "descargarChart("+"'"+`${chart}`+"'"+");");
   but.style.marginBottom = "20px";
-  but.setAttribute("id", "button1");
-  but.setAttribute("type", "button");
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
-}
-function chart_2() {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", "2f");
-  //c2=document.getElementById("2f");
-
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = "Gráfico radial";
-
-  const can = document.createElement("canvas");
-  can.setAttribute("id", "chart2");
-
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart2');");
-  but.setAttribute("id", "button2");
-  but.style.marginBottom = "20px";
-  but.setAttribute("type", "button");
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
-}
-function chart_3() {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", "3f");
-  //c3=document.getElementById("3f");
-
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = "Gráfico de barras";
-
-  const can = document.createElement("canvas");
-  can.setAttribute("id", "chart3");
-
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart3');");
-  but.style.marginBottom = "20px";
-  but.setAttribute("type", "button");
-  but.setAttribute("id", "button3");
-  but.style.marginBottom = "20px";
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
-}
-function chart_4() {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", "4f");
-  //c4=document.getElementById("4f");
-
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = "Gráfico de lineas";
-
-  const can = document.createElement("canvas");
-  can.setAttribute("id", "chart4");
-
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart4');");
-  but.setAttribute("id", "button4");
-  but.style.marginBottom = "20px";
-  but.setAttribute("type", "button");
-  but.style.marginBottom = "20px";
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
-}
-function chart_5() {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", "5f");
-  //   c5=document.getElementById("5f");
-
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = "Gráfico de radar";
-
-  const can = document.createElement("canvas");
-  can.setAttribute("id", "chart5");
-
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart5');");
-  but.setAttribute("id", "button5");
-  but.style.marginBottom = "20px";
-  but.setAttribute("type", "button");
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
-}
-function chart_6() {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", "6f");
-  //  c6=document.getElementById("6f");
-
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = "Gráfico de pastel";
-
-  const can = document.createElement("canvas");
-  can.setAttribute("id", "chart6");
-
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart('chart6');");
-  but.setAttribute("id", "button6");
-  but.style.marginBottom = "20px";
+  but.setAttribute("id", "button"+id);
   but.setAttribute("type", "button");
   but.textContent = "Descargar chart como PNG";
 
@@ -772,16 +748,13 @@ function printCharts(repositorio, valor) {
       //GRAFICOS CON UNA SOLA COLUMNA SELECCIONADA
 
       colT = document.getElementById("columnasT").value;
-      console.log(
-        jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
-      );
+      // console.log(
+      //   jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
+      // );
       val = document.getElementById("valores").value;
 
       let titulo;
       titulo = "Cantidad de " + nombreRepo + " por " + colT;
-
-      let titulo2;
-      titulo2 = "Cantidad de " + nombreRepo + " por " + colT;
 
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
@@ -791,24 +764,39 @@ function printCharts(repositorio, valor) {
           if (valor < 1) {
             window.alert("Selecciona minimo un valor por favor");
           } else {
+            if (document.getElementById("chart7")) {
+              document.getElementById("7f").remove();
+              document.getElementById("button7").remove();
+              if(document.getElementById("chart8")){
+                console.log("aqui estoyyyyyyyyyyyy3");
+                document.getElementById("8f").remove();
+                document.getElementById("button8").remove();
+              }
+              if(document.getElementById("chart9")){
+                document.getElementById("9f").remove();
+                document.getElementById("button9").remove();
+              }
+            }
+
             if (!document.getElementById("chart1")) {
               console.log("buena paaaaaaaaaaaaa");
-              chart_1();
+              chart(1,"Gráfico de área polar","chart1");
               radialChart(repositorio, "chart1", valor, colT, titulo);
-              chart_2();
-              donasChart(repositorio, "chart2", valor, colT, titulo2);
+              chart(2,"Gráfico de dona","chart2");
+              donasChart(repositorio, "chart2", valor, colT, titulo);
             } else {
               radialChart(repositorio, "chart1", valor, colT, titulo);
-              donasChart(repositorio, "chart2", valor, colT, titulo2);
+              donasChart(repositorio, "chart2", valor, colT, titulo);
             }
 
             if (
-              document.getElementById("chart3") ||
-              document.getElementById("chart4") ||
-              document.getElementById("chart5") ||
+              document.getElementById("chart3") &&
+              document.getElementById("chart4") &&
+              document.getElementById("chart5") &&
               document.getElementById("chart6")
             ) {
               //console.log("HOLA POAAAAAAAAA");
+              console.log("aqui estoyyyyyyyyyyyy1");
               document.getElementById("3f").remove();
               document.getElementById("4f").remove();
               document.getElementById("5f").remove();
@@ -817,6 +805,19 @@ function printCharts(repositorio, valor) {
               document.getElementById("button4").remove();
               document.getElementById("button5").remove();
               document.getElementById("button6").remove();
+            } else if (
+              document.getElementById("chart3") &&
+              document.getElementById("chart6")
+            ) {
+              console.log("aqui estoyyyyyyyyyyyy2");
+              document.getElementById("3f").remove();
+              document.getElementById("6f").remove();
+              document.getElementById("button3").remove();
+              document.getElementById("button6").remove();
+              if (document.getElementById("chart4")) {
+                document.getElementById("4f").remove();
+                document.getElementById("button4").remove();
+              }
             }
           }
           //unico=false;
@@ -826,22 +827,25 @@ function printCharts(repositorio, valor) {
           "Porfavor selecciona valores correspondientes al set de datos"
         );
       }
-    } else {
+    } else if (document.getElementById("opci").value == 2) {
       colT = document.getElementById("columnasT").value;
       colN = document.getElementById("columnasN").value;
       val = document.getElementById("valores").value;
+      if (document.getElementById("chart7")) {
+        document.getElementById("7f").remove();
+        document.getElementById("button7").remove();
+        if(document.getElementById("chart8")){
+          document.getElementById("8f").remove();
+          document.getElementById("button8").remove();
+        }
+        if(document.getElementById("chart9")){
+          document.getElementById("9f").remove();
+          document.getElementById("button9").remove();
+        }
+      }
 
-      let titulo3;
-      titulo3 = "Número de " + colN + " por " + nombreRepo;
-
-      let titulo4;
-      titulo4 = "Número de " + colN + " por " + nombreRepo;
-
-      let titulo5;
-      titulo5 = "Número de " + colN + " por " + nombreRepo;
-
-      let titulo6;
-      titulo6 = "Número de " + colN + " por " + nombreRepo;
+      let titulo;
+      titulo = "Número de " + colN + " por " + nombreRepo;
 
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
@@ -854,31 +858,43 @@ function printCharts(repositorio, valor) {
             window.alert("Selecciona minimo un valor por favor");
           } else {
             if (!document.getElementById("chart3")) {
-              chart_3();
-              barrasChart(repositorio, "chart3", valor, colT, titulo3);
+              chart(3,"Gráfico de barras","chart3");
+              barrasChart(repositorio, "chart3", valor, colT, titulo);
 
-              chart_6();
-              pastelChart(repositorio, "chart6", valor, colT, titulo6);
+              chart(6,"Gráfico de pastel","chart6");
+              pastelChart(repositorio, "chart6", valor, colT, titulo);
             } else {
-              barrasChart(repositorio, "chart3", valor, colT, titulo3);
-              pastelChart(repositorio, "chart6", valor, colT, titulo6);
+              barrasChart(repositorio, "chart3", valor, colT, titulo);
+              pastelChart(repositorio, "chart6", valor, colT, titulo);
+            }
+            if (document.getElementById("chart4")) {
+              if (document.getElementById("chart5")) {
+                document.getElementById("5f").remove();
+                document.getElementById("button5").remove();
+              }
+              document.getElementById("4f").remove();
+              document.getElementById("button4").remove();
             }
             if (valor.length == 2) {
               if (!document.getElementById("chart4")) {
-                chart_4();
-                lineasChart(repositorio, "chart4", valor, colT, titulo4);
+                chart(4,"Gráfico de lineas","chart4");
+                lineasChart(repositorio, "chart4", valor, colT, titulo);
               } else {
-                lineasChart(repositorio, "chart4", valor, colT, titulo4);
+                lineasChart(repositorio, "chart4", valor, colT, titulo);
+              }
+              if (document.getElementById("chart5")) {
+                document.getElementById("5f").remove();
+                document.getElementById("button5").remove();
               }
             } else if (valor.length >= 3) {
               if (!document.getElementById("chart4")) {
-                chart_4();
-                lineasChart(repositorio, "chart4", valor, colT, titulo4);
-                chart_5();
-                radarChart(repositorio, "chart5", valor, colT, titulo5);
+                chart(4,"Gráfico de lineas","chart4");
+                lineasChart(repositorio, "chart4", valor, colT, titulo);
+                chart(5,"Gráfico de radar","chart5");
+                radarChart(repositorio, "chart5", valor, colT, titulo);
               } else {
-                lineasChart(repositorio, "chart4", valor, colT, titulo4);
-                radarChart(repositorio, "chart5", valor, colT, titulo5);
+                lineasChart(repositorio, "chart4", valor, colT, titulo);
+                radarChart(repositorio, "chart5", valor, colT, titulo);
               } //else if(
             }
             if (
@@ -890,7 +906,79 @@ function printCharts(repositorio, valor) {
               document.getElementById("button1").remove();
               document.getElementById("button2").remove();
             }
+
             //barras=false;
+          }
+        }
+      } else {
+        window.alert(
+          "Porfavor selecciona valores correspondientes al set de datos"
+        );
+      }
+    } else if (document.getElementById("opci").value == 3) {
+      colT = document.getElementById("columnasT").value;
+      //colN = document.getElementById("columnasN").value;
+      //val = document.getElementById("valores").value;
+      var selected = [];
+      for (var option of document.getElementById("columnasN").options) {
+        if (option.selected) {
+          selected.push(option.value);
+        }
+      }
+
+      let titulo;
+      titulo =
+        "Cantidad de " +
+        selected[0] +
+        " y " +
+        selected[1] +
+        " por " +
+        nombreRepo;
+
+      if (
+        jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
+          .length != 0
+      ) {
+        console.log("Vamos a graficar 3 columnas opa");
+        if (barras == true) {
+          console.log(titulo);
+          if (!document.getElementById("chart7")) {
+            chart(7,"Gráfico Mixto barra y linea","chart7");
+            barlineaChart(repositorio, "chart7", valor, colT, titulo, selected);
+            chart(8,"Gráfico Mixto barra y barra","chart8");
+            barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+            chart(9,"Gráfico Mixto radar multiple","chart9");
+            radarMultiChart(repositorio,"chart9",valor,colT,titulo,selected);
+          } else {
+            barlineaChart(repositorio, "chart7", valor, colT, titulo, selected);
+            barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+            radarMultiChart(repositorio,"chart9",valor,colT,titulo,selected);
+          }
+          if (document.getElementById("chart1")) {
+            if (document.getElementById("chart2")) {
+              document.getElementById("2f").remove();
+              document.getElementById("button2").remove();
+            }
+            document.getElementById("1f").remove();
+            document.getElementById("button1").remove();
+          }
+          if (
+            document.getElementById("chart3") &&
+            document.getElementById("chart6")
+          ) {
+            // console.log("aqui estoyyyyyyyyyyyy2")
+            document.getElementById("3f").remove();
+            document.getElementById("6f").remove();
+            document.getElementById("button3").remove();
+            document.getElementById("button6").remove();
+            if (document.getElementById("chart4")) {
+              document.getElementById("4f").remove();
+              document.getElementById("button4").remove();
+            }
+            if (document.getElementById("chart5")) {
+              document.getElementById("5f").remove();
+              document.getElementById("button5").remove();
+            }
           }
         }
       } else {
@@ -1155,8 +1243,7 @@ function barrasChart(repositorio, id, valor, campo, titulo) {
     c = 0;
   }
 
-  var total = 0,
-    formula = 0;
+  var total = 0;
   for (let i = 0; i < cont.length; i++) {
     total += cont[i];
   }
@@ -1229,20 +1316,20 @@ function barrasChart(repositorio, id, valor, campo, titulo) {
           },
         },
       },
+      scales: {
+        y:{
+          ticks: {
+           color: "black",
+          }
+        },
+      //   x:{
+      //    ticks: {
+      //      color: "black",
+      //     }
+      //   }
+       },
     },
-    // scales:{
-    //     yAxes: [{
-    //       ticks: {
-    //           beginAtZero:true
-    //       }
-    //   }],
-    //     xAxes:[{
-    //       ticks: {
-    //         fontColor: 'red'
-    //       },
-    //       beginAtZero : true,
-    //     }]
-    //   },
+    
     plugins: [plugin, ChartDataLabels],
   };
 
@@ -1281,6 +1368,11 @@ function lineasChart(repositorio, id, valor, campo, titulo) {
     c = 0;
   }
 
+  var total = 0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i];
+  }
+
   //for que retorna los datos en el label
   for (let i = 0; i < labels.length; i++) {
     labels[i] = labels[i] + " = " + cont[i];
@@ -1292,7 +1384,7 @@ function lineasChart(repositorio, id, valor, campo, titulo) {
     labels: labels,
     datasets: [
       {
-        label: campo,
+        label: campo + " = " + total,
         data: cont,
         borderColor: styles.color.solids.map((eachColor) => eachColor),
         backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
@@ -1318,31 +1410,18 @@ function lineasChart(repositorio, id, valor, campo, titulo) {
     type: "line",
     data: data,
     options: {
-      scale: {
-        yAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              display: true,
-              beginAtZero: true,
-              fontColor: "black",
-            },
-          },
-        ],
-        xAxes: [
-          {
-            gridLines: {
-              display: false,
-            },
-            ticks: {
-              display: true,
-              beginAtZero: true,
-              fontColor: "black",
-            },
-          },
-        ],
+      scales: {
+       y:{
+         beginAtZero: true,
+         ticks: {
+          color: "black",
+         }
+       },
+       x:{
+        ticks: {
+          color: "black",
+         }
+       }
       },
       plugins: {
         legend: {
@@ -1400,6 +1479,11 @@ function radarChart(repositorio, id, valor, campo, titulo) {
     c = 0;
   }
 
+  var total = 0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i];
+  }
+
   //for que retorna los datos en el label
   for (let i = 0; i < labels.length; i++) {
     labels[i] = labels[i] + " = " + cont[i];
@@ -1411,7 +1495,7 @@ function radarChart(repositorio, id, valor, campo, titulo) {
     labels: labels,
     datasets: [
       {
-        label: campo,
+        label: campo + " = " + total,
         data: cont,
         borderColor: styles.color.solids.map((eachColor) => eachColor),
         backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
@@ -1578,6 +1662,423 @@ function pastelChart(repositorio, id, valor, campo, titulo) {
   }
 
   chart7 = new Chart(id, config);
+}
+
+function barlineaChart(repositorio, id, valor, campoT, titulo, campoN) {
+  const labels = [];
+  const labels1 = [];
+  //guarda los labels del grafico
+  for (let i = 0; i < valor.length; i++) {
+    labels[i] = valor[i];
+    labels1[i] = valor[i];
+  }
+
+  //Filtrar las canntidades de veces que se encuentre el registro numerico y sumarlo
+  var datos = [];
+
+  for (let i = 0; i < valor.length; i++) {
+    datos[i] = repositorio.filter(
+      (eachData) => eachData[`${campoT}`] === `${valor[i]}`
+    );
+  }
+
+  var cont = [],
+    c = 0,
+    cont1 = [],
+    c1 = 0;
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c += parseInt(datos[j][i][`${campoN[0]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont[j] = c;
+    c = 0;
+  }
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c1 += parseInt(datos[j][i][`${campoN[1]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont1[j] = c1;
+    c1 = 0;
+  }
+
+  var total = 0;
+  var total1 = 0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i]; //+ cont1[i];
+    total1 += cont1[i];
+  }
+
+  // for que retorna los datos en el label
+  for (let i = 0; i < labels.length; i++) {
+    // labels[i] = labels[i] + " = " + cont[i] + " de " + total;
+      labels[i] = labels[i] + " = " + cont[i];
+  }
+
+  //armado de grafico
+  const data = {
+    //parametros de data
+    labels: labels,
+    datasets: [
+      {
+        type: "bar",
+        labels: labels,
+        label: campoN[0] + " = " + total,
+        data: cont,
+        borderColor: styles.color.solids[0],
+        backgroundColor: styles.color.alphas[0],
+      },
+      {
+        type: "line",
+        labels: labels1,
+        label: campoN[1]+ " = " + total1,
+        data: cont1,
+        borderColor: styles.color.solids[2],
+        backgroundColor: styles.color.alphas[2],
+      },
+    ],
+  };
+
+  const plugin = {
+    id: "custom_canvas_background_color",
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext("2d");
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
+
+  const config = {
+    //estilos y opciones del grafico
+
+    type: "scatter",
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: titulo,
+          color: "black",
+        },
+        legend: {
+          //color:"black",
+          labels: {
+            color: "black",
+          },
+        },
+        datalabels: {
+          color: "black",
+          font: {
+            //weight: 'bold',
+            size: 15,
+          },
+          //fontSize:'15px',
+          formatter: (value, context) => {
+            const datapoints = context.chart.data.datasets[0].data;
+            function totalSum(total, datapoint) {
+              return total + datapoint;
+            }
+            const totalvalue = datapoints.reduce(totalSum, 0);
+            const percentageValue = ((value / totalvalue) * 100).toFixed(1);
+
+            return `${percentageValue}%`;
+          },
+        },
+      },
+      scales: {
+        y:{
+          ticks: {
+           color: "black",
+          }
+        },
+      //   x:{
+      //    ticks: {
+      //      color: "black",
+      //     }
+      //   }
+       },
+    },
+    plugins: [plugin, ChartDataLabels],
+  };
+
+  if (chart8 != undefined || chart8 != null) {
+    chart8.destroy();
+  }
+  chart8 = new Chart(id, config);
+}
+
+function barbarChart(repositorio, id, valor, campoT, titulo, campoN) {
+  const labels = [];
+  const labels1 = [];
+  //guarda los labels del grafico
+  for (let i = 0; i < valor.length; i++) {
+    labels[i] = valor[i];
+    labels1[i] = valor[i];
+  }
+
+  //Filtrar las canntidades de veces que se encuentre el registro numerico y sumarlo
+  var datos = [];
+
+  for (let i = 0; i < valor.length; i++) {
+    datos[i] = repositorio.filter(
+      (eachData) => eachData[`${campoT}`] === `${valor[i]}`
+    );
+  }
+
+  var cont = [],
+    c = 0,
+    cont1 = [],
+    c1 = 0;
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c += parseInt(datos[j][i][`${campoN[0]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont[j] = c;
+    c = 0;
+  }
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c1 += parseInt(datos[j][i][`${campoN[1]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont1[j] = c1;
+    c1 = 0;
+  }
+
+  var total = 0;
+  var total1 = 0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i];
+    total1 += cont1[i]; //+ cont1[i];
+  }
+
+  // for que retorna los datos en el label
+  for (let i = 0; i < labels.length; i++) {
+    // labels[i] = labels[i] + " = " + cont[i] + " de " + total;
+    labels[i] = labels[i] + " = " + cont[i];
+  }
+
+  //armado de grafico
+  const data = {
+    //parametros de data
+    labels: labels,
+    datasets: [
+      {
+        type: "bar",
+        labels: labels,
+        label: campoN[0] + " = " + total,
+        data: cont,
+        borderColor: styles.color.solids[4],
+        backgroundColor: styles.color.alphas[4],
+      },
+      {
+        type: "bar",
+        labels: labels1,
+        label: campoN[1]+ " = " + total1,
+        data: cont1,
+        borderColor: styles.color.solids[3],
+        backgroundColor: styles.color.alphas[3],
+      },
+    ],
+  };
+
+  const plugin = {
+    id: "custom_canvas_background_color",
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext("2d");
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
+
+  const config = {
+    //estilos y opciones del grafico
+
+    type: "scatter",
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: titulo,
+          color: "black",
+        },
+        legend: {
+          //color:"black",
+          labels: {
+            color: "black",
+          },
+        },
+        datalabels: {
+          color: "black",
+          font: {
+            //weight: 'bold',
+            size: 15,
+          },
+          //fontSize:'15px',
+          formatter: (value, context) => {
+            const datapoints = context.chart.data.datasets[0].data;
+            function totalSum(total, datapoint) {
+              return total + datapoint;
+            }
+            const totalvalue = datapoints.reduce(totalSum, 0);
+            const percentageValue = ((value / totalvalue) * 100).toFixed(1);
+
+            return `${percentageValue}%`;
+          },
+        },
+      },
+      scales: {
+        y:{
+          ticks: {
+           color: "black",
+          }
+        },
+      //   x:{
+      //    ticks: {
+      //      color: "black",
+      //     }
+      //   }
+       },
+    },
+    plugins: [plugin, ChartDataLabels],
+  };
+
+  if (chart9 != undefined || chart9 != null) {
+    chart9.destroy();
+  }
+  chart9 = new Chart(id, config);
+}
+
+function radarMultiChart(repositorio, id, valor, campoT, titulo, campoN) {
+  const labels = [];
+  const labels1 = [];
+  //guarda los labels del grafico
+  for (let i = 0; i < valor.length; i++) {
+    labels[i] = valor[i];
+    labels1[i] = valor[i];
+  }
+
+  //Filtrar las canntidades de veces que se encuentre el registro numerico y sumarlo
+  var datos = [];
+
+  for (let i = 0; i < valor.length; i++) {
+    datos[i] = repositorio.filter(
+      (eachData) => eachData[`${campoT}`] === `${valor[i]}`
+    );
+  }
+
+  var cont = [],
+    c = 0,
+    cont1 = [],
+    c1 = 0;
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c += parseInt(datos[j][i][`${campoN[0]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont[j] = c;
+    c = 0;
+  }
+
+  for (let j = 0; j < valor.length; j++) {
+    for (let i = 0; i < datos[j].length; i++) {
+      c1 += parseInt(datos[j][i][`${campoN[1]}`], 10);
+      //console.log("Este son los valores " + datos[j][i][`${num}`]);
+    }
+    cont1[j] = c1;
+    c1 = 0;
+  }
+
+  var total = 0;
+  var total1 = 0;
+  for (let i = 0; i < cont.length; i++) {
+    total += cont[i];
+    total1 += cont1[i]; //+ cont1[i];
+  }
+
+  // for que retorna los datos en el label
+  for (let i = 0; i < labels.length; i++) {
+    // labels[i] = labels[i] + " = " + cont[i] + " de " + total;
+    labels[i] = labels[i] + " = " + cont[i];
+  }
+
+  //armado de grafico
+  const data = {
+    //parametros de data
+    labels: labels,
+    datasets: [
+      {
+        //type:'bar',
+        labels: labels,
+        label: campoN[0] + " = " + total,
+        data: cont,
+        borderColor: styles.color.solids.map((eachColor) => eachColor),
+        backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
+      },
+      {
+        //type:'bar',
+        labels: labels1,
+        label: campoN[1]+ " = " + total1,
+        data: cont1,
+        borderColor: styles.color.solids.map((eachColor) => eachColor),
+        backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
+      },
+    ],
+  };
+
+  const plugin = {
+    id: "custom_canvas_background_color",
+    beforeDraw: (chart) => {
+      const ctx = chart.canvas.getContext("2d");
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-over";
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    },
+  };
+
+  const config = {
+    //estilos y opciones del grafico
+
+    type: "radar",
+    data: data,
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: titulo,
+          color: "black",
+        },
+        legend: {
+          //color:"black",
+          labels: {
+            color: "black",
+          },
+        },
+      },
+    },
+    plugins: [plugin],
+  };
+
+  if (chart10 != undefined || chart10 != null) {
+    chart10.destroy();
+  }
+  chart10 = new Chart(id, config);
 }
 
 //FUNCION QUE DESCARGA EL GRAFICO
