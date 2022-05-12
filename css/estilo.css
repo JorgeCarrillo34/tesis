@@ -18,8 +18,34 @@ main {
 }
 */
 section {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  padding: 0%;
+  
+  
 }
+
+/* figure .cof {
+  /* width: 700px; */
+  /* display: inline;
+  float: right; */
+  /* margin-bottom: 20px; */
+  /* margin-left:9%; */
+  /* margin:auto; */
+/* }  */
+/* div{
+  /* margin-left: 8%; */
+/* } */
+
+/* section .cof {
+  text-align:center;
+  margin-bottom: 20px; */
+  
+  /* width:800px !important;
+  height:800px !important; */
+  
+  /* margin-bottom: 10px; */
+  /* margin-left: 8%; */
+/* } */
 /*
 h1 {
   font-size: 3em;
@@ -40,25 +66,70 @@ hr {
   margin-bottom: 50px;
 }
 */
+/* element.style{
+
+} */
+
 figure {
+  /* display: inline; */
   background-color: rgba(255, 255, 255, 0.05);
   padding: 10px 10px 30px;
-  width: 105%;
+  margin-left: auto;
+  margin-right: auto;
+  /* text-align: au; */
+  /* display: flex; */
+  /* margin-bottom: 20px; */
+  /* margin: 30px; */
+  /* width:516px !important;
+  height:516px !important; */
+  /* width: 105%; */
+}
+div .cof{
+  /* display: inline; */
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 10px 10px 30px;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin-left: 184px;
+  margin-bottom: 20px; */
+  /* margin: 30px; */
+  /* width:516px !important;
+  height:516px !important; */
+  /* width: 105%; */
+}
+
+/* figure .cof{ 
+  background-color: rgba(255, 255, 255, 0.05) !important;
+   padding: 10px 10px 10px !important;
+  margin-left: 184px !important;
+  margin-bottom: 20px !important;
+  margin-left: auto;
+} */
+
+div p {
+  margin-bottom: 2px;
+  font-size: 0.8em;
+  
 }
 
 figure p {
-  margin-bottom: 7px;
+  margin-bottom: 2px;
   font-size: 0.8em;
+  
 }
 
 canvas {
   width: 100%;
-  
+  /* max-width: 750px ;
+  max-height: 750px ;
+  margin-left: 20px;
+  width:516px !important;
+  height:516px !important; */
 }
 
 /* grid */
 
-[class*="cols"] {
+[class*='cols'] {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -66,17 +137,18 @@ canvas {
 
 .cols-3 > * {
   width: 33.33%;
-  margin: 10px;
+  margin: 10px
 }
 
 .cols-2 > * {
   width: 50%;
-  margin: 30px;
+  margin: 10px
 }
 
 .cols-1 > * {
+  
   width: 100%;
-  margin: 10px;
+  margin: 10px
 }
 
 #chart6 {

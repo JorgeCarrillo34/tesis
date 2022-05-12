@@ -34,6 +34,8 @@ const sacarJson = async (id, c) => {
     document.getElementById("div1").style.visibility = "hidden";
     document.getElementById("div2").style.visibility = "hidden";
     document.getElementById("sect").style.visibility = "hidden";
+    document.getElementById("div5").style.visibility = "hidden";
+    document.getElementById("l2").style.visibility = "hidden";
     window.alert(
       "El repositorio no esta disponible por el momento, intente mas tarde"
     );
@@ -44,6 +46,7 @@ const sacarJson = async (id, c) => {
     document.getElementById("div1").style.visibility = "visible";
     document.getElementById("div2").style.visibility = "visible";
     document.getElementById("sect").style.visibility = "visible";
+    
     // console.log(request.status);
     let response = await request.json();
     console.log(c);
@@ -198,7 +201,10 @@ function sacarColum(repositorio, c) {
     if (listaN.length == 0) {
       document.getElementById("prf").remove();
       document.getElementById("columnasN").remove();
-      window.alert("No existen datos numericos para este repositorio");
+      window.alert("No existen datos numericos para este repositorio, seleccione el valor '1' de cantidad de columnas");
+      document.getElementById("div5").style.visibility = "hidden";
+      document.getElementById("l2").style.visibility = "hidden";
+      document.getElementById("sect").style.visibility = "hidden";
     }
   }
 }
@@ -207,6 +213,7 @@ function sacarColum(repositorio, c) {
 function sacarVal(repositorio, campo) {
   var lista1 = null;
   //var lista2 = null;
+  console.log(campo);
   var cols2 = new Array(1);
 
   const listaVal = document.getElementById("valores");
@@ -224,31 +231,17 @@ function sacarVal(repositorio, campo) {
     } else {
       for (var i = 0; i < repositorio.length; i++) {
         cols2.push(repositorio[i][`${campo}`]);
-        unico = true;
-        barras = false;
       }
+      unico = true;
+      barras = false;
       //console.log(cols2)
     }
-  } else if (campo.length == 0) {
-    window.alert("Debes seleccionar una columna,por favor vuelve a intentarlo");
-    document.getElementById("div2").style.visibility = "hidden";
-  } else if ((campo.length == 2 && document.getElementById("opci").value == 2) || (campo.length == 3 && document.getElementById("opci").value == 3) ) {
-    document.getElementById("div2").style.visibility = "visible";
-    document.getElementById("sect").style.visibility = "visible";
-    document.getElementById("div1").style.visibility = "visible";
-
-    if (isNaN(repositorio[1][campo[0]]) && isNaN(repositorio[1][campo[1]])) {
-      window.alert(
-        "Debes seleccionar por lo menos una columna numerica, por favor vuelve a intentarlo"
-      );
-    } else if (
-      !isNaN(repositorio[1][campo[0]]) &&
-      !isNaN(repositorio[1][campo[1]])
-    ) {
-      window.alert(
-        "Debes seleccionar por lo menos una columna de tipo texto, por favor vuelve a intentarlo"
-      );
-    } else {
+  } 
+  else if (campo.length == 2 && document.getElementById("opci").value == 2){
+      document.getElementById("div2").style.visibility = "visible";
+      document.getElementById("sect").style.visibility = "visible";
+      document.getElementById("div1").style.visibility = "visible";
+    
       var texto;
       //Valida que columna es la numerica
       for (let index = 0; index < campo.length; index++) {
@@ -267,16 +260,8 @@ function sacarVal(repositorio, campo) {
       }
       barras = true;
       unico = false;
-    }
-  } else if(campo.length > 3){
-    window.alert(
-      "Solo puedes seleccionar como máximo 3 columnas,por favor vuelve a intentarlo"
-    );
-  }else{
-    window.alert(
-      "Por favor selecciona máximo 2 valores de tipo numerico"
-    );
-  }
+    // }} else
+   
 
   //console.log(cols2);
 
@@ -296,6 +281,58 @@ function sacarVal(repositorio, campo) {
   }
   //console.log(uniqueChars);
   return uniqueChars;
+    
+    }
+    else if(campo.length == 3 || document.getElementById("opci").value == 3)
+    {
+    document.getElementById("div2").style.visibility = "visible";
+    document.getElementById("sect").style.visibility = "visible";
+    document.getElementById("div1").style.visibility = "visible";
+    console.log("Estamos en el if 3 ")
+    
+      var texto;
+      //Valida que columna es la numerica
+      for (let index = 0; index < campo.length; index++) {
+        if (isNaN(repositorio[1][campo[index]])) {
+          console.log("Este es el texto " + campo[index]);
+          texto = campo[index];
+        } else {
+          num = campo[index];
+          console.log("Este es el numero " + num);
+          campoNum = campo[index];
+        }
+      }
+      //for para traer los valores por columna filtrada
+      
+      barras = true;
+      unico = false;
+     
+     for (var i = 0; i < repositorio.length; i++) {
+      cols2.push(repositorio[i][`${texto}`]);
+    }
+  
+}else if (campo.length == 0) {
+  window.alert("Debes seleccionar una columna,por favor vuelve a intentarlo");
+  document.getElementById("div2").style.visibility = "hidden";
+}else{
+  window.alert("Por favor selecciona máximo 2 valores de tipo numerico");
+}
+//guardar en un vector los valores e ir filtrando para que no este repetido
+let uniqueChars = [...new Set(cols2)];
+
+//console.log(uniqueChars);
+
+for (var i = 0; i < uniqueChars.length; i++) {
+  //lista1 = document.createElement("option");
+  if (uniqueChars[i] != undefined) {
+    lista1 = document.createElement("option");
+    lista1.textContent = uniqueChars[i];
+    lista1.value = uniqueChars[i];
+    listaVal.add(lista1);
+  }
+}
+//console.log(uniqueChars);
+return uniqueChars;
 }
 
 //CONTINUAR, pone los valores en lista
@@ -307,7 +344,7 @@ function Json1() {
     const p = document.createElement("p");
     p.style.color = "white";
     p.textContent =
-      "Ahora selecciona los valores que deseas graficar. (Máximo 10)";
+      "Ahora selecciona los valores que deseas graficar. (Máximo 6)";
 
     const opt = document.createElement("select");
     opt.setAttribute("id", "valores");
@@ -340,21 +377,25 @@ function Json1() {
       }
       //console.log(selected)
     } else {
-      var selectElement = document.getElementById("columnasT");
-      var selectElement2 = document.getElementById("columnasN");
-
-      var selected = [];
-      for (var option of selectElement.options) {
-        if (option.selected) {
-          selected.push(option.value);
+      if(document.getElementById("columnasT")){
+        var selectElement = document.getElementById("columnasT");
+        var selected = [];
+        for (var option of selectElement.options) {
+          if (option.selected) {
+            selected.push(option.value);
+          }
         }
       }
-
-      for (var option of selectElement2.options) {
-        if (option.selected) {
-          selected.push(option.value);
+      if(document.getElementById("columnasN")){
+        var selectElement2 = document.getElementById("columnasN");
+        for (var option of selectElement2.options) {
+          if (option.selected) {
+            selected.push(option.value);
+          }
         }
       }
+      
+      
     }
 
     console.log(selected); //variables seleccionadas de los campos
@@ -372,17 +413,17 @@ function Json1() {
         }
       }
     } else {
-      var selectElement = document.getElementById("columnasT");
-      var selectElement2 = document.getElementById("columnasN");
-
-      var selected = [];
-      for (var option of selectElement.options) {
-        if (option.selected) {
-          selected.push(option.value);
+      if(document.getElementById("columnasT")){
+        var selectElement = document.getElementById("columnasT");
+        var selected = [];
+        for (var option of selectElement.options) {
+          if (option.selected) {
+            selected.push(option.value);
+          }
         }
       }
-
-      if (document.getElementById("columnasN")) {
+      if(document.getElementById("columnasN")){
+        var selectElement2 = document.getElementById("columnasN");
         for (var option of selectElement2.options) {
           if (option.selected) {
             selected.push(option.value);
@@ -411,7 +452,7 @@ const Json2 = () => {
     p.style.color = "white";
     p.setAttribute("id", "p1");
     p.textContent =
-      "A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos. (Máximo 2 columnas: una de texto y una numérica)" +
+      "A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos. (Máximo 3 columnas: una de texto y una numérica)" +
       "\n" +
       "Primero debes escoger cuantas columnas quieres ingresar";
 
@@ -448,6 +489,7 @@ const Json2 = () => {
 
 //funcion que permite las 2 listas
 function cantidadCol() {
+  
   var c = 0;
   var selectElement = document.getElementById("opci");
   const lista = document.querySelector(".desaparece-2");
@@ -681,8 +723,12 @@ function cantidadCol() {
     var selectElement = document.getElementById("repos");
     repo = selectElement.value;
     nombreRepo = selectElement.options[selectElement.selectedIndex].text;
-    sacarJson(repo,c);
+    sacarJson(repo, c);
   }
+
+  document.getElementById("div5").style.visibility = "visible";
+      document.getElementById("l2").style.visibility = "visible";
+      document.getElementById("sect").style.visibility = "visible";
 }
 
 //Funcion que obtiene los valores posibles a graficar CONTINUAR 2
@@ -698,38 +744,108 @@ const json3 = () => {
   sel = selected;
   console.log(selected);
 
-  if (selected.length > 10) {
-    window.alert("Maximo 10 valores, por favor selecciona menos valores");
+  if (selected.length > 6) {
+    window.alert("Maximo 6 valores, por favor selecciona menos valores");
   } else {
     printCharts(jsonCompleto, selected);
   }
 };
 
 //PASAR PARAMETRO IDFIGURA, TEXTO PARRAFO, IDBOTON, IDCANVAS
-function chart(id,titulo,chart) {
-  const fig = document.createElement("figure");
-  fig.setAttribute("id", id+"f");
-  //c1=document.getElementById("1f");
+function chart(id, titulo, chart) {
 
-  const p = document.createElement("p");
-  p.style.color = "white";
-  p.textContent = titulo;
+  if(id==2 || id==1){
+  //   if(id==1){
+      // const sect = document.createElement("div");
+      // sect.setAttribute("class", "cof");
+      // sect.setAttribute("id", "secti"+id);
+      // sect.style.width = "800px";
+      // sect.style.height = "800px";
+      // console.log(secti2)
 
-  const can = document.createElement("canvas");
-  can.setAttribute("id", chart);
+      console.log("buena apa estoy en chart 1")
+    // const sect = document.getElementById("secti1");
+    // console.log(sect)
+      const fig = document.createElement("figure");
+      fig.setAttribute("id", id + "f");
+      // fig.setAttribute("class", "cof");
+      // fig.style.padding = "10px";
+      fig.style.width = "600px";
+      
+      
+      //c1=document.getElementById("1f");
+    
+      const p = document.createElement("p");
+      p.style.color = "white";
+      p.textContent = titulo;
+    
+      const can = document.createElement("canvas");
+      can.setAttribute("id", chart);
+      // can.setAttribute("class", "cof");
+      // can.style.setProperty("width","780px", "important") 
+      // can.style.setProperty("height","780px", "important") 
+    
+      const but = document.createElement("button");
+      but.setAttribute("class", "btn btn-info");
+      but.setAttribute(
+        "onclick",
+        "descargarChart(" + "'" + `${chart}` + "'" + ");"
+      );
+      but.style.marginBottom = "20px";
+      but.setAttribute("id", "button" + id);
+      but.setAttribute("type", "button");
+      but.textContent = "Descargar chart como PNG";
+    
+      // console.log(secti)
+      fig.appendChild(p);
+      fig.appendChild(can);
+      
+      // sect.appendChild(fig);
+      
+      lista.appendChild(fig);
+      lista.appendChild(but);
+  }
+      
+  else{
+   
+    
+      const fig = document.createElement("div");
+      fig.setAttribute("id", id + "f");
+      fig.setAttribute("class", "cof");
+      fig.style.width = "700px";
+      
+      //c1=document.getElementById("1f");
+    
+      const p = document.createElement("p");
+      p.style.color = "white";
+      p.textContent = titulo;
+    
+      const can = document.createElement("canvas");
+      can.setAttribute("id", chart);
+    
+      const but = document.createElement("button");
+      but.setAttribute("class", "btn btn-info");
+      but.setAttribute(
+        "onclick",
+        "descargarChart(" + "'" + `${chart}` + "'" + ");"
+      );
+      but.style.marginBottom = "20px";
+      but.setAttribute("id", "button" + id);
+      but.setAttribute("type", "button");
+      but.textContent = "Descargar chart como PNG";
+    
+      
+      fig.appendChild(p);
+      fig.appendChild(can);
+      lista.appendChild(fig);
+      lista.appendChild(but);
+      
+    }
+  // }
 
-  const but = document.createElement("button");
-  but.setAttribute("class", "btn btn-info");
-  but.setAttribute("onclick", "descargarChart("+"'"+`${chart}`+"'"+");");
-  but.style.marginBottom = "20px";
-  but.setAttribute("id", "button"+id);
-  but.setAttribute("type", "button");
-  but.textContent = "Descargar chart como PNG";
-
-  lista.appendChild(fig);
-  fig.appendChild(p);
-  fig.appendChild(can);
-  lista.appendChild(but);
+  
+  
+  
 }
 
 //FUNCION QUE CREA LOS GRAFICOS
@@ -737,7 +853,7 @@ function printCharts(repositorio, valor) {
   //para que aparezca en el front los canvas y cambiar la propiedad en el css
 
   //console.log(repositorio.filter((eachData) => eachData[`${campoGraf}`] === `${valor[0]}`));
-
+  console.log(valor)
   var colT;
   var colN;
   if (valor.length != 0) {
@@ -745,6 +861,7 @@ function printCharts(repositorio, valor) {
       document.getElementById("opci").value == 1 ||
       !document.getElementById("columnasN")
     ) {
+      console.log("estamos en el if 1")
       //GRAFICOS CON UNA SOLA COLUMNA SELECCIONADA
 
       colT = document.getElementById("columnasT").value;
@@ -755,24 +872,24 @@ function printCharts(repositorio, valor) {
 
       let titulo;
       titulo = "Cantidad de " + nombreRepo + " por " + colT;
-
+      titulo = titulo.toUpperCase();
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
           .length != 0
       ) {
         if (unico == true) {
-          if (valor < 1) {
-            window.alert("Selecciona minimo un valor por favor");
-          } else {
+          
+          if(document.getElementById("opci").value == 1) {
+            console.log("mr fantatico")
             if (document.getElementById("chart7")) {
               document.getElementById("7f").remove();
               document.getElementById("button7").remove();
-              if(document.getElementById("chart8")){
+              if (document.getElementById("chart8")) {
                 console.log("aqui estoyyyyyyyyyyyy3");
                 document.getElementById("8f").remove();
                 document.getElementById("button8").remove();
               }
-              if(document.getElementById("chart9")){
+              if (document.getElementById("chart9")) {
                 document.getElementById("9f").remove();
                 document.getElementById("button9").remove();
               }
@@ -780,9 +897,9 @@ function printCharts(repositorio, valor) {
 
             if (!document.getElementById("chart1")) {
               console.log("buena paaaaaaaaaaaaa");
-              chart(1,"Gráfico de área polar","chart1");
+              chart(1, "Gráfico de área polar", "chart1");
               radialChart(repositorio, "chart1", valor, colT, titulo);
-              chart(2,"Gráfico de dona","chart2");
+              chart(2, "Gráfico de dona", "chart2");
               donasChart(repositorio, "chart2", valor, colT, titulo);
             } else {
               radialChart(repositorio, "chart1", valor, colT, titulo);
@@ -834,11 +951,11 @@ function printCharts(repositorio, valor) {
       if (document.getElementById("chart7")) {
         document.getElementById("7f").remove();
         document.getElementById("button7").remove();
-        if(document.getElementById("chart8")){
+        if (document.getElementById("chart8")) {
           document.getElementById("8f").remove();
           document.getElementById("button8").remove();
         }
-        if(document.getElementById("chart9")){
+        if (document.getElementById("chart9")) {
           document.getElementById("9f").remove();
           document.getElementById("button9").remove();
         }
@@ -846,7 +963,7 @@ function printCharts(repositorio, valor) {
 
       let titulo;
       titulo = "Número de " + colN + " por " + nombreRepo;
-
+      titulo = titulo.toUpperCase();
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
           .length != 0
@@ -858,10 +975,10 @@ function printCharts(repositorio, valor) {
             window.alert("Selecciona minimo un valor por favor");
           } else {
             if (!document.getElementById("chart3")) {
-              chart(3,"Gráfico de barras","chart3");
+              chart(3, "Gráfico de barras", "chart3");
               barrasChart(repositorio, "chart3", valor, colT, titulo);
 
-              chart(6,"Gráfico de pastel","chart6");
+              chart(6, "Gráfico de pastel", "chart6");
               pastelChart(repositorio, "chart6", valor, colT, titulo);
             } else {
               barrasChart(repositorio, "chart3", valor, colT, titulo);
@@ -877,7 +994,7 @@ function printCharts(repositorio, valor) {
             }
             if (valor.length == 2) {
               if (!document.getElementById("chart4")) {
-                chart(4,"Gráfico de lineas","chart4");
+                chart(4, "Gráfico de lineas", "chart4");
                 lineasChart(repositorio, "chart4", valor, colT, titulo);
               } else {
                 lineasChart(repositorio, "chart4", valor, colT, titulo);
@@ -888,9 +1005,9 @@ function printCharts(repositorio, valor) {
               }
             } else if (valor.length >= 3) {
               if (!document.getElementById("chart4")) {
-                chart(4,"Gráfico de lineas","chart4");
+                chart(4, "Gráfico de lineas", "chart4");
                 lineasChart(repositorio, "chart4", valor, colT, titulo);
-                chart(5,"Gráfico de radar","chart5");
+                chart(5, "Gráfico de radar", "chart5");
                 radarChart(repositorio, "chart5", valor, colT, titulo);
               } else {
                 lineasChart(repositorio, "chart4", valor, colT, titulo);
@@ -901,6 +1018,8 @@ function printCharts(repositorio, valor) {
               document.getElementById("chart1") ||
               document.getElementById("chart2")
             ) {
+              // document.getElementById("secti1").remove();
+              // document.getElementById("secti2").remove();
               document.getElementById("1f").remove();
               document.getElementById("2f").remove();
               document.getElementById("button1").remove();
@@ -934,7 +1053,7 @@ function printCharts(repositorio, valor) {
         selected[1] +
         " por " +
         nombreRepo;
-
+        titulo = titulo.toUpperCase();
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
           .length != 0
@@ -942,44 +1061,71 @@ function printCharts(repositorio, valor) {
         console.log("Vamos a graficar 3 columnas opa");
         if (barras == true) {
           console.log(titulo);
-          if (!document.getElementById("chart7")) {
-            chart(7,"Gráfico Mixto barra y linea","chart7");
-            barlineaChart(repositorio, "chart7", valor, colT, titulo, selected);
-            chart(8,"Gráfico Mixto barra y barra","chart8");
-            barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
-            chart(9,"Gráfico Mixto radar multiple","chart9");
-            radarMultiChart(repositorio,"chart9",valor,colT,titulo,selected);
+          if (valor.length <= 2) {
+            console.log("Vamos a graficar sin radar");
+            if (!document.getElementById("chart7")) {
+              chart(7, "Gráfico Mixto barra y linea", "chart7");
+              barlineaChart(repositorio,"chart7",valor,colT,titulo,selected);
+              chart(8, "Gráfico Mixto barra y barra", "chart8");
+              barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+            } else {
+              barlineaChart(repositorio,"chart7",valor,colT,titulo,selected);
+              barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+            }
+            if(document.getElementById("chart9")){
+              document.getElementById("9f").remove();
+              document.getElementById("button9").remove();
+            }
           } else {
-            barlineaChart(repositorio, "chart7", valor, colT, titulo, selected);
-            barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
-            radarMultiChart(repositorio,"chart9",valor,colT,titulo,selected);
-          }
-          if (document.getElementById("chart1")) {
-            if (document.getElementById("chart2")) {
-              document.getElementById("2f").remove();
-              document.getElementById("button2").remove();
-            }
-            document.getElementById("1f").remove();
-            document.getElementById("button1").remove();
-          }
-          if (
-            document.getElementById("chart3") &&
-            document.getElementById("chart6")
-          ) {
-            // console.log("aqui estoyyyyyyyyyyyy2")
-            document.getElementById("3f").remove();
-            document.getElementById("6f").remove();
-            document.getElementById("button3").remove();
-            document.getElementById("button6").remove();
-            if (document.getElementById("chart4")) {
-              document.getElementById("4f").remove();
-              document.getElementById("button4").remove();
-            }
-            if (document.getElementById("chart5")) {
-              document.getElementById("5f").remove();
-              document.getElementById("button5").remove();
+            console.log("Vamos a graficar con radar");
+            if (!document.getElementById("chart7")) {
+              chart(7, "Gráfico Mixto barra y linea", "chart7");
+              barlineaChart(repositorio,"chart7",valor,colT,titulo,selected);
+              chart(8, "Gráfico Mixto barra y barra", "chart8");
+              barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+              chart(9, "Gráfico Mixto radar multiple", "chart9");
+              radarMultiChart(repositorio, "chart9", valor, colT, titulo,selected);
+            } else {
+              barlineaChart(repositorio,"chart7",valor,colT,titulo,selected);
+              barbarChart(repositorio, "chart8", valor, colT, titulo, selected);
+              if(!document.getElementById("chart9")){
+                chart(9, "Gráfico Mixto radar multiple", "chart9");
+                radarMultiChart(repositorio, "chart9", valor, colT, titulo,selected);
+              }else{
+                radarMultiChart( repositorio, "chart9", valor, colT, titulo, selected );
+              } 
             }
           }
+            if (document.getElementById("chart1")) {
+              // document.getElementById("secti1").remove();
+              // document.getElementById("secti2").remove();
+              if (document.getElementById("chart2")) {
+                document.getElementById("2f").remove();
+                document.getElementById("button2").remove();
+              }
+              
+              document.getElementById("1f").remove();
+              document.getElementById("button1").remove();
+            }
+            if (
+              document.getElementById("chart3") &&
+              document.getElementById("chart6")
+            ) {
+              // console.log("aqui estoyyyyyyyyyyyy2")
+              document.getElementById("3f").remove();
+              document.getElementById("6f").remove();
+              document.getElementById("button3").remove();
+              document.getElementById("button6").remove();
+              if (document.getElementById("chart4")) {
+                document.getElementById("4f").remove();
+                document.getElementById("button4").remove();
+              }
+              if (document.getElementById("chart5")) {
+                document.getElementById("5f").remove();
+                document.getElementById("button5").remove();
+              }
+            }
+          
         }
       } else {
         window.alert(
@@ -1074,6 +1220,7 @@ function radialChart(repositorio, id, valor, campo, titulo) {
           display: true,
           text: titulo,
           color: "black",
+          // fontSize: "50px"
         },
         tooltip: {
           enabled: true,
@@ -1317,19 +1464,19 @@ function barrasChart(repositorio, id, valor, campo, titulo) {
         },
       },
       scales: {
-        y:{
+        y: {
           ticks: {
-           color: "black",
-          }
+            color: "black",
+          },
         },
-      //   x:{
-      //    ticks: {
-      //      color: "black",
-      //     }
-      //   }
-       },
+        //   x:{
+        //    ticks: {
+        //      color: "black",
+        //     }
+        //   }
+      },
     },
-    
+
     plugins: [plugin, ChartDataLabels],
   };
 
@@ -1411,17 +1558,17 @@ function lineasChart(repositorio, id, valor, campo, titulo) {
     data: data,
     options: {
       scales: {
-       y:{
-         beginAtZero: true,
-         ticks: {
-          color: "black",
-         }
-       },
-       x:{
-        ticks: {
-          color: "black",
-         }
-       }
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "black",
+          },
+        },
+        x: {
+          ticks: {
+            color: "black",
+          },
+        },
       },
       plugins: {
         legend: {
@@ -1715,7 +1862,7 @@ function barlineaChart(repositorio, id, valor, campoT, titulo, campoN) {
   // for que retorna los datos en el label
   for (let i = 0; i < labels.length; i++) {
     // labels[i] = labels[i] + " = " + cont[i] + " de " + total;
-      labels[i] = labels[i] + " = " + cont[i];
+    labels[i] = labels[i] + " = " + cont[i];
   }
 
   //armado de grafico
@@ -1734,7 +1881,7 @@ function barlineaChart(repositorio, id, valor, campoT, titulo, campoN) {
       {
         type: "line",
         labels: labels1,
-        label: campoN[1]+ " = " + total1,
+        label: campoN[1] + " = " + total1,
         data: cont1,
         borderColor: styles.color.solids[2],
         backgroundColor: styles.color.alphas[2],
@@ -1792,17 +1939,17 @@ function barlineaChart(repositorio, id, valor, campoT, titulo, campoN) {
         },
       },
       scales: {
-        y:{
+        y: {
           ticks: {
-           color: "black",
-          }
+            color: "black",
+          },
         },
-      //   x:{
-      //    ticks: {
-      //      color: "black",
-      //     }
-      //   }
-       },
+        //   x:{
+        //    ticks: {
+        //      color: "black",
+        //     }
+        //   }
+      },
     },
     plugins: [plugin, ChartDataLabels],
   };
@@ -1883,7 +2030,7 @@ function barbarChart(repositorio, id, valor, campoT, titulo, campoN) {
       {
         type: "bar",
         labels: labels1,
-        label: campoN[1]+ " = " + total1,
+        label: campoN[1] + " = " + total1,
         data: cont1,
         borderColor: styles.color.solids[3],
         backgroundColor: styles.color.alphas[3],
@@ -1941,17 +2088,17 @@ function barbarChart(repositorio, id, valor, campoT, titulo, campoN) {
         },
       },
       scales: {
-        y:{
+        y: {
           ticks: {
-           color: "black",
-          }
+            color: "black",
+          },
         },
-      //   x:{
-      //    ticks: {
-      //      color: "black",
-      //     }
-      //   }
-       },
+        //   x:{
+        //    ticks: {
+        //      color: "black",
+        //     }
+        //   }
+      },
     },
     plugins: [plugin, ChartDataLabels],
   };
@@ -2032,7 +2179,7 @@ function radarMultiChart(repositorio, id, valor, campoT, titulo, campoN) {
       {
         //type:'bar',
         labels: labels1,
-        label: campoN[1]+ " = " + total1,
+        label: campoN[1] + " = " + total1,
         data: cont1,
         borderColor: styles.color.solids.map((eachColor) => eachColor),
         backgroundColor: styles.color.alphas.map((eachColor) => eachColor),
