@@ -18,7 +18,7 @@ var chart1,
   chart10;
 const lista = document.getElementById("sect");
 
-//OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL
+//OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL, ademas reemplaza los caracteres erroneos
 const sacarJson = async (id, c) => {
   //mode: "no-cors"
   let request = await fetch(`http://localhost:19990/db/${id}`, {
@@ -42,18 +42,45 @@ const sacarJson = async (id, c) => {
     //stat =request.status;
     // a.remove();
   } else {
-    //stat =request.status;
-    document.getElementById("div1").style.visibility = "visible";
-    document.getElementById("div2").style.visibility = "visible";
-    document.getElementById("sect").style.visibility = "visible";
-    
-    // console.log(request.status);
-    let response = await request.json();
-    console.log(c);
+      //stat =request.status;
+      document.getElementById("div1").style.visibility = "visible";
+      document.getElementById("div2").style.visibility = "visible";
+      document.getElementById("sect").style.visibility = "visible";
+      
+      // console.log(request.status);
+      let response = await request.json();
+      //console.log(c);
 
-    let data1 = await sacarColum(response, c); //ESPERAR A QUE SE RESUELVA
-    jsonCompleto = response;
-  }
+      let data1 = await sacarColum(response, c); //ESPERAR A QUE SE RESUELVA
+      jsonCompleto = response;
+
+   
+
+    var caracter = '�';
+    //Se obtiene el objeto json por registro
+    for (x in jsonCompleto) {
+      //Obtengo los valores por registro 
+      for (y in jsonCompleto[x]) {
+        if(typeof jsonCompleto[x][y] === "object"){
+          //console.log("Entre al if de object");
+        }
+        else if (jsonCompleto[x][y].indexOf('"') > -1){
+
+          jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
+          jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
+        } 
+          //Se recorre cada valor de las columnas del registro
+          for (let i = 0; i < jsonCompleto[x][y].length; i++) {
+            //console.log("El carácter en el índice " +  i +" es '" + jsonCompleto[x][y].charAt(i) + "'")
+            if(jsonCompleto[x][y].charAt(i) == caracter){           
+              jsonCompleto[x][y] = jsonCompleto[x][y].replace(caracter,"Ñ");
+              //console.log(jsonCompleto[x][y]);
+            }
+          }
+      }
+    }
+
+}
 };
 
 //CARGA EL SELECT DE LOS REPOSITORIOS DE LA BASE DE DATOS Y LA PONE EN LA LISTA
@@ -112,98 +139,91 @@ function sacarColum(repositorio, c) {
   //var cols = new Array(1);
   var listaT;
   var listaN;
-  console.log(c);
 
+//LOGICA PARA UNA SOLA COLUMNA
   if (c == "1") {
     listaT = document.getElementById("columnasT");
     //console.log(listaT);
     listaT.innerHTML = "";
 
-    for (let item in repositorio[0]) {
-      if (
-        item.startsWith("nombre_") ||
-        item.startsWith("modalidad_") ||
-        item.startsWith("formato_") ||
-        item.startsWith("total_") ||
-        item.startsWith("centro_") ||
-        item.startsWith("ciudad_mesa") ||
-        item.startsWith("medio_de_conservaci_n") ||
-        item.startsWith("mesa_") ||
-        item.startsWith("municipio") ||
-        item.startsWith("n_mero") ||
-        item.startsWith("nivel_") ||
-        item.startsWith("desagregacion_") ||
-        item.startsWith("a_o")
-      ) {
-        //i++;
-        // console.log(isNaN(item)) //si no es un numero
-        // console.log(isNaN(repositorio[0][item]))
-        // for(let item2 in repositorio[0][]){
+    for (x in repositorio[0]) {
 
-        // }
-        if (isNaN(repositorio[0][item])) {
-          console.log(item);
-          const lista = document.createElement("option");
-          lista.textContent = item;
-          lista.value = item;
-          listaT.add(lista);
+      for (let index = 0; index < 1; index++) {
+
+        if (isNaN(repositorio[0][x]) ) {
+         // console.log("Este es el texto " + repositorio[0][x]);
+          if (typeof repositorio[0][x] === "object" ||
+              repositorio[0][x].indexOf('/') > -1 ||
+              repositorio[0][x].indexOf('@') > -1 || 
+              repositorio[0][x].indexOf('#') > -1 ||
+              repositorio[0][x].indexOf('.') > -1)
+            {
+              //console.log("NO SE VA A MOSTRAR");
+            }else{
+              const lista = document.createElement("option");
+              lista.textContent = x;
+              lista.value = x;
+              listaT.add(lista);
+            }
         }
-        //console.log("ITEM = " + item + i);
-      }
-    }
-  } else if (c == 2 || c == 3) {
+      }    
+  }
+
+  }
+  //LOGICA PARA 2 O 3 COLUMNAS 
+  else if (c == 2 || c == 3) {
     listaT = document.getElementById("columnasT");
     listaT.innerHTML = "";
     listaN = document.getElementById("columnasN");
     listaN.innerHTML = "";
 
-    for (let item in repositorio[0]) {
-      if (
-        item.startsWith("nombre_") ||
-        item.startsWith("modalidad_") ||
-        item.startsWith("formato_") ||
-        item.startsWith("total_") ||
-        item.startsWith("centro_") ||
-        item.startsWith("ciudad_mesa") ||
-        item.startsWith("medio_de_conservaci_n") ||
-        item.startsWith("mesa_") ||
-        item.startsWith("municipio") ||
-        item.startsWith("n_mero") ||
-        item.startsWith("nivel_") ||
-        item.startsWith("desagregacion_") ||
-        item.startsWith("a_o")
-      ) {
-        //i++;
-        // console.log(isNaN(item)) //si no es un numero
-        // console.log(isNaN(repositorio[0][item]))
-        // for(let item2 in repositorio[0][]){
 
-        // }
-        if (isNaN(repositorio[0][item])) {
-          console.log(item);
-          const lista = document.createElement("option");
-          lista.textContent = item;
-          lista.value = item;
-          listaT.add(lista);
-        } else if (!isNaN(repositorio[0][item])) {
-          console.log(item);
-          const lista1 = document.createElement("option");
-          lista1.textContent = item;
-          lista1.value = item;
-          listaN.add(lista1);
+    for (x in repositorio[0]) {
+
+      //Valida que columna es la numerica
+      for (let index = 0; index < 1; index++) {
+         
+        if (isNaN(repositorio[0][x]) ) {
+          //console.log("Este es el texto " + repositorio[0][x]);
+          
+          if (typeof repositorio[0][x] === "object" ||
+              repositorio[0][x].indexOf('/') > -1 ||
+              repositorio[0][x].indexOf('@') > -1 || 
+              repositorio[0][x].indexOf('#') > -1 ||
+              repositorio[0][x].indexOf('{') > -1 ||
+              repositorio[0][x].indexOf('}') > -1 ||
+              repositorio[0][x].indexOf('.') > -1)
+            {
+              //console.log("NO SE VA A MOSTRAR");
+            }else{
+              const lista = document.createElement("option");
+              lista.textContent = x;
+              lista.value = x;
+              listaT.add(lista);
+            }
         }
-
-        //console.log("ITEM = " + item + i);
-      }
-    }
-    console.log(listaN.length);
+        else {
+          //console.log("Este es el numero " + repositorio[0][x]); 
+          if(repositorio[0][x].length > 3){
+           // console.log("no lo tendremos en cuenta");
+          }else{
+            const lista1 = document.createElement("option");
+            lista1.textContent = x;
+            lista1.value = x;
+            listaN.add(lista1);
+          }
+        }
+      }    
+  }
 
     if (listaN.length == 0) {
       document.getElementById("prf").remove();
       document.getElementById("columnasN").remove();
       window.alert("No existen datos numericos para este repositorio, seleccione el valor '1' de cantidad de columnas");
       document.getElementById("div5").style.visibility = "hidden";
-      document.getElementById("l2").style.visibility = "hidden";
+      if(document.getElementById("l2")){
+        document.getElementById("l2").style.visibility = "hidden";
+      }
       document.getElementById("sect").style.visibility = "hidden";
     }
   }
@@ -213,12 +233,12 @@ function sacarColum(repositorio, c) {
 function sacarVal(repositorio, campo) {
   var lista1 = null;
   //var lista2 = null;
-  console.log(campo);
+  //console.log(campo);
   var cols2 = new Array(1);
 
   const listaVal = document.getElementById("valores");
   listaVal.innerHTML = "";
-  console.log(campo.length);
+  //console.log(campo.length);
 
   if (campo.length == 1 && document.getElementById("opci").value == 1) {
     document.getElementById("div2").style.visibility = "visible";
@@ -246,11 +266,11 @@ function sacarVal(repositorio, campo) {
       //Valida que columna es la numerica
       for (let index = 0; index < campo.length; index++) {
         if (isNaN(repositorio[1][campo[index]])) {
-          console.log("Este es el texto " + campo[index]);
+          //console.log("Este es el texto " + campo[index]);
           texto = campo[index];
         } else {
           num = campo[index];
-          console.log("Este es el numero " + num);
+          //console.log("Este es el numero " + num);
           campoNum = campo[index];
         }
       }
@@ -283,22 +303,23 @@ function sacarVal(repositorio, campo) {
   return uniqueChars;
     
     }
-    else if(campo.length == 3 || document.getElementById("opci").value == 3)
+    else if(campo.length == 3 && document.getElementById("opci").value == 3)
     {
+
     document.getElementById("div2").style.visibility = "visible";
     document.getElementById("sect").style.visibility = "visible";
     document.getElementById("div1").style.visibility = "visible";
-    console.log("Estamos en el if 3 ")
+    //console.log("Estamos en el if 3 ")
     
       var texto;
       //Valida que columna es la numerica
       for (let index = 0; index < campo.length; index++) {
         if (isNaN(repositorio[1][campo[index]])) {
-          console.log("Este es el texto " + campo[index]);
+          //console.log("Este es el texto " + campo[index]);
           texto = campo[index];
         } else {
           num = campo[index];
-          console.log("Este es el numero " + num);
+          //console.log("Este es el numero " + num);
           campoNum = campo[index];
         }
       }
@@ -398,7 +419,7 @@ function Json1() {
       
     }
 
-    console.log(selected); //variables seleccionadas de los campos
+   // console.log(selected); //variables seleccionadas de los campos
 
     sacarVal(jsonCompleto, selected);
   } else {
@@ -495,16 +516,16 @@ function cantidadCol() {
   const lista = document.querySelector(".desaparece-2");
   c = Number(selectElement.value);
   //console.log(typeof(Number(selectElement.value)));
-  console.log(typeof c);
+  //console.log(typeof c);
 
   if (!document.getElementById("columnasT")) {
-    console.log("aaaaaaaaaaaaaaaaaaaa");
+    //console.log("aaaaaaaaaaaaaaaaaaaa");
 
     const prueba = document.createElement("div");
     prueba.setAttribute("id", "div5");
 
     if (c == 1) {
-      console.log("aaaaaaaaa 1");
+      //console.log("aaaaaaaaa 1");
       const p1 = document.createElement("p");
       p1.textContent = "Campo de tipo Texto:";
       p1.style.marginTop = "30px";
@@ -530,7 +551,7 @@ function cantidadCol() {
 
       lista.appendChild(prueba);
     } else if (c == 2) {
-      console.log("aaaaaaaaa 2");
+      //console.log("aaaaaaaaa 2");
       const p1 = document.createElement("p");
       p1.textContent = "Campo de tipo Texto:";
       p1.style.marginTop = "30px";
@@ -726,8 +747,11 @@ function cantidadCol() {
     sacarJson(repo, c);
   }
 
-  document.getElementById("div5").style.visibility = "visible";
-      document.getElementById("l2").style.visibility = "visible";
+    document.getElementById("div5").style.visibility = "visible";
+      if(document.getElementById("l2")){
+        document.getElementById("l2").style.visibility = "visible";
+    }
+    
       document.getElementById("sect").style.visibility = "visible";
 }
 
@@ -742,7 +766,7 @@ const json3 = () => {
     }
   }
   sel = selected;
-  console.log(selected);
+  //console.log(selected);
 
   if (selected.length > 6) {
     window.alert("Maximo 6 valores, por favor selecciona menos valores");
@@ -841,10 +865,7 @@ function chart(id, titulo, chart) {
       lista.appendChild(but);
       
     }
-  // }
-
-  
-  
+    
   
 }
 
@@ -853,7 +874,7 @@ function printCharts(repositorio, valor) {
   //para que aparezca en el front los canvas y cambiar la propiedad en el css
 
   //console.log(repositorio.filter((eachData) => eachData[`${campoGraf}`] === `${valor[0]}`));
-  console.log(valor)
+  //console.log(valor)
   var colT;
   var colN;
   if (valor.length != 0) {
@@ -1923,7 +1944,7 @@ function barlineaChart(repositorio, id, valor, campoT, titulo, campoN) {
           color: "black",
           font: {
             //weight: 'bold',
-            size: 15,
+            size: 13,
           },
           //fontSize:'15px',
           formatter: (value, context) => {
