@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>ProtoData</title>
+
+ <!-- BOOTSTRAP CORE STYLE CSS -->
+ <link href="/css/bootstrap.css" rel="stylesheet" />
+ <!-- FONTAWESOME STYLE CSS -->
+ <link href="/css/font-awesome.css" rel="stylesheet" />
+<!-- CUSTOM STYLE CSS -->
+<link href="/css/style.css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/estilo.css" />
+<!--
+<link rel="stylesheet" href="/css/mobiscroll.javascript.min.css">
+-->
+    
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top " >
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="index.html" ><strong ></strong> PR<i class="fa fa-globe"></i>TODATA<small ></small></a>
+          </div>
+      </div>
+  </div>
+
+<!--MENU SECTION END-->
+<section id="home-sec">
+  <div class="overlay text-center">
+      <h1>Graficación de Datos Abiertos</h1>
+      <hr class="hr-set"/>
+
+      <p>Visualización de estadísticas nacionales </p>
+  </div>
+</section>
+<!--HOME SECTION END-->
+<section id="search-domain" >
+  <div class="container">
+      <div class="row">
+<div>
+ </div>
+          <div class="text-center">
+              <p class="text-center" style="margin-bottom: 20px;">
+                Tenemos opciones de repositorios para que escojas, tambien podras seleccionar que campos y que graficos deseas, además de poder copiar y
+                pegar el grafico donde quieras. Dale clic al siguiente boton e inicia tu proceso de graficación de datos nacionales.</p>
+
+                <input id="linkJson" type="text" class="btn btn-info btn-lg btn-set"></input>
+                <button onclick="Json2();" > OK </button>
+          </div>
+      </div>
+  </div>
+</section> 
+
+<section id="services-sec" style="margin: 0; padding-top: 10px; padding-bottom: 10px;" >
+  <div class="container">
+    <main>
+      <h3 class="text-center">Graficos generados</h3>
+      <div class="row text-center" >
+
+      <!-- Este select es para las columnas -->
+      
+        <div mbsc-page class="demo-multiple-select">
+          <div style="height:100%" >
+            <form action="" style="color:black ;" class="desaparece-1", id="primerF">   
+             <!-- <p style="color:white ;">Selecciona un repositorio para iniciar.</p>
+            
+              <label>
+                Multi-selección
+                <input mbsc-input id="repos-input" placeholder="Seleccione una opción" data-dropdown="true" data-input-style="outline" data-label-style="stacked" />
+              </label>
+              <select id="repos" multiple>
+                <option value="" > Seleccione una opción </option>
+              </select>
+
+            <select name="listaRepos" id="repos" >
+              <option value="" > Seleccione una opción </option>
+            </select>
+        
+                <button onclick="Json2();" type="button" class="btn btn-info btn-lg btn-set">Continuar</button>-->
+            </form>
+          </div>
+        </div>
+
+        <div class="row text-center" id="div1">
+        <br>
+                  <form action="" class="desaparece-2" style="color:black ;">
+
+                   <!-- <p class="text-center" style="margin-bottom: 20px; color:white ;">
+                        A continuación encontrarás todas las columnas disponibles de las cuales podrás hacer uso para tus gráficos</p>
+
+                    <select name="listaColumnas" id="columnas" multiple>
+                      <option value="" > Seleccione una opción </option>
+                    </select>
+                    
+                      
+                    <button onclick="Json1()" type="button" class="btn btn-info btn-lg btn-set"> Continuar </button>
+                    -->
+                  </form>
+                </div>
+                  <br>
+                  <div class="row text-center" id="div2">
+
+                  <form action="" class="desaparece-3" style="color:black ;">
+                 <!--   <p class="text-center" style="margin-bottom: 20px; color:white ;">
+                        Ahora selecciona los campos que deseas graficar</p>
+                        
+                    <select name="listaValores" id="valores" multiple >
+                      <option value="" > Seleccione una opción </option>
+                    </select>
+                   
+                      
+                    <button  id="submit" type="button" class="btn btn-info btn-lg btn-set"> Graficar </button>
+                    -->
+                  </form>
+
+        </div>      
+
+        <!-- GRAFICOS   -->
+
+ 
+        <section id="sect"  class="desaparece mayusculas">
+
+          </section>
+    
+      </div>
+  </div>
+
+    </main>
+</section>
+
+  <!--CLIENTS SECTION END-->
+  <section id="footer-sec" style="margin: 0;" >
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h4>Quienes somos?</h4>
+              <p style="padding-right:50px;">
+                Estudiantes de la Universidad Piloto de
+                Colombia, con aspiración a graduarse de ingeniería de 
+                sistemas para el año 2022. 
+              </p>
+          </div>
+          <div class="col-md-4">
+            <h4>Ubicación </h4>
+                <h5>Universidad Piloto de Colombia</h5>
+                <h5>Dirección: Cra. 9 #45A-44, Bogotá</h5>
+                <h5>Universidad privada en Bogotá</h5>
+                <br/>
+                <h5><strong>Email:</strong> postgrados@unipiloto.edu.co</h5>
+                <h5><strong>Linea gratuita:</strong>  01 8000 110452</h5>
+          </div>
+          <div class="col-md-4">
+            <h4>Podras encontrarnos en</h4>
+                <div class="social-links">
+                  <a href="https://www.facebook.com/UniPilotoOficial" target="_blank"> <i class="fa fa-facebook fa-2x"></i></a>
+                  <a href="https://twitter.com/UPilotoOficial" target="_blank"> <i class="fa fa-twitter fa-2x" ></i></a>
+                  <a href="https://www.linkedin.com/school/universidad-piloto-de-colombia/" target="_blank"> <i class="fa fa-linkedin fa-2x" ></i></a>
+                  <a href="https://github.com/JorgeCarrillo34/tesis" target="_blank"> <i class="fa fa-github fa-2x" ></i></a>                      
+                </div>
+          </div>       
+        </div>   
+      </div>
+  </section>
+
+  </body>
+
+ 
+  
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js" 
+  integrity="sha512-R/QOHLpV1Ggq22vfDAWYOaMd5RopHrJNMxi8/lJu8Oihwi4Ho4BRFeiMiCefn9rasajKjnx9/fTQ/xkWnkDACg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/js/estilosChart.js"></script>
+  <script src="/js/scriptJson.js"></script>
+ 
+</html>

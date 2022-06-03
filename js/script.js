@@ -6,16 +6,7 @@ var chart,
   num,
   unico = false,
   sel = [];
-var chart1,
-  chart2,
-  chart3,
-  chart4,
-  chart5,
-  chart6,
-  chart7,
-  chart8,
-  chart9,
-  chart10;
+var chart1,chart2,chart3,chart4,chart5,chart6,chart7,chart8,chart9,chart10;
 const lista = document.getElementById("sect");
 
 //OBTIENE EL REPOSITORIO DEL LINK JSON Y SE ASIGNA A VARIABLE GLOBAL, ademas reemplaza los caracteres erroneos
@@ -35,7 +26,9 @@ const sacarJson = async (id, c) => {
     document.getElementById("div2").style.visibility = "hidden";
     document.getElementById("sect").style.visibility = "hidden";
     document.getElementById("div5").style.visibility = "hidden";
-    document.getElementById("l2").style.visibility = "hidden";
+    if(document.getElementById("l2")){
+      document.getElementById("l2").style.visibility = "hidden";
+    }
     window.alert(
       "El repositorio no esta disponible por el momento, intente mas tarde"
     );
@@ -50,35 +43,33 @@ const sacarJson = async (id, c) => {
       // console.log(request.status);
       let response = await request.json();
       //console.log(c);
-
-      let data1 = await sacarColum(response, c); //ESPERAR A QUE SE RESUELVA
       jsonCompleto = response;
 
-   
-
-    var caracter = '�';
-    //Se obtiene el objeto json por registro
-    for (x in jsonCompleto) {
-      //Obtengo los valores por registro 
-      for (y in jsonCompleto[x]) {
-        if(typeof jsonCompleto[x][y] === "object"){
-          //console.log("Entre al if de object");
-        }
-        else if (jsonCompleto[x][y].indexOf('"') > -1){
-
-          jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
-          jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
-        } 
-          //Se recorre cada valor de las columnas del registro
-          for (let i = 0; i < jsonCompleto[x][y].length; i++) {
-            //console.log("El carácter en el índice " +  i +" es '" + jsonCompleto[x][y].charAt(i) + "'")
-            if(jsonCompleto[x][y].charAt(i) == caracter){           
-              jsonCompleto[x][y] = jsonCompleto[x][y].replace(caracter,"Ñ");
-              //console.log(jsonCompleto[x][y]);
-            }
+      var caracter = '�';
+      //Se obtiene el objeto json por registro
+      for (x in jsonCompleto) {
+        //Obtengo los valores por registro 
+        for (y in jsonCompleto[x]) {
+          if(typeof jsonCompleto[x][y] === "object"){
+            //console.log("Entre al if de object");
           }
+          else if (jsonCompleto[x][y].indexOf('"') > -1){
+            jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
+            jsonCompleto[x][y] = jsonCompleto[x][y].replace('"','');
+            //console.log("Datos con comillas" +jsonCompleto[x][y]);
+          } 
+            //Se recorre cada valor de las columnas del registro
+            for (let i = 0; i < jsonCompleto[x][y].length; i++) {
+              //console.log("El carácter en el índice " +  i +" es '" + jsonCompleto[x][y].charAt(i) + "'")
+              if(jsonCompleto[x][y].charAt(i) == caracter){           
+                jsonCompleto[x][y] = jsonCompleto[x][y].replace(caracter,"Ñ");
+                //console.log(jsonCompleto[x][y]);
+              }
+            }
+        }
       }
-    }
+
+      let data1 = await sacarColum(response, c); //ESPERAR A QUE SE RESUELVA
 
 }
 };
@@ -151,14 +142,38 @@ function sacarColum(repositorio, c) {
       for (let index = 0; index < 1; index++) {
 
         if (isNaN(repositorio[0][x]) ) {
-         // console.log("Este es el texto " + repositorio[0][x]);
-          if (typeof repositorio[0][x] === "object" ||
-              repositorio[0][x].indexOf('/') > -1 ||
-              repositorio[0][x].indexOf('@') > -1 || 
-              repositorio[0][x].indexOf('#') > -1 ||
-              repositorio[0][x].indexOf('.') > -1)
+         //console.log("Este es el texto " + repositorio[0][x]);
+            if (typeof repositorio[0][x] === "object" ||
+            repositorio[0][x].indexOf('/') > -1 ||
+            repositorio[0][x].indexOf('@') > -1 || 
+            repositorio[0][x].indexOf('#') > -1 ||
+            repositorio[0][x].indexOf('{') > -1 ||
+            repositorio[0][x].indexOf('}') > -1 ||
+            repositorio[0][x].indexOf('.') > -1 ||
+            repositorio[0][x].indexOf('-') > -1 ||
+            repositorio[0][x].indexOf(',') > -1 )
             {
-              //console.log("NO SE VA A MOSTRAR");
+              //console.log(repositorio[0][x]);
+              
+              //Valida el guion
+             if(!typeof repositorio[0][x] === "object" && repositorio[0][x].indexOf('-') > -1 && !isNaN(repositorio[0][x].charAt(0))){
+                //console.log("Este es el # "+repositorio[0][x] );
+              }
+              //Valida la coma en numeros que toma como texto
+              if(typeof repositorio[0][x] === "string" && repositorio[0][x].indexOf(',') > -1 && !isNaN(repositorio[0][x].charAt(0))){
+                //console.log("Este es el # con coma "+repositorio[0][x]);
+              }//valida que el texto pueda contener coma pero sea texto
+              else if(typeof repositorio[0][x] === "string" && repositorio[0][x].indexOf(',') > -1 && isNaN(repositorio[0][x].charAt(0)) && isNaN(repositorio[0][x].charAt(1))){
+                //console.log("Este es el texto con coma " + repositorio[0][x]);
+                if(!repositorio[0][x].length > 80){
+                  const lista = document.createElement("option");
+                  lista.textContent = x;
+                  lista.value = x;
+                  listaT.add(lista);
+                }else{
+                    console.log("tiene muchos caracteres");
+                }
+            }
             }else{
               const lista = document.createElement("option");
               lista.textContent = x;
@@ -192,9 +207,30 @@ function sacarColum(repositorio, c) {
               repositorio[0][x].indexOf('#') > -1 ||
               repositorio[0][x].indexOf('{') > -1 ||
               repositorio[0][x].indexOf('}') > -1 ||
-              repositorio[0][x].indexOf('.') > -1)
+              repositorio[0][x].indexOf('.') > -1 ||
+              repositorio[0][x].indexOf('-') > -1 ||
+              repositorio[0][x].indexOf(',') > -1 )
             {
               //console.log("NO SE VA A MOSTRAR");
+
+            //Valida el guion
+            if(!typeof repositorio[0][x] === "object" && repositorio[0][x].indexOf('-') > -1 && !isNaN(repositorio[0][x].charAt(0))){
+              console.log("Este es el # "+repositorio[0][x] );
+            }
+            //Valida la coma en numeros que toma como texto
+            if(typeof repositorio[0][x] === "string" && repositorio[0][x].indexOf(',') > -1 && !isNaN(repositorio[0][x].charAt(0))){
+              //console.log("Este es el # con coma "+repositorio[0][x]);
+            }else if(typeof repositorio[0][x] === "string" && repositorio[0][x].indexOf(',') > -1 && isNaN(repositorio[0][x].charAt(0)) && isNaN(repositorio[0][x].charAt(1))){
+              //console.log("Este es el texto con coma " + repositorio[0][x]);
+              if(!repositorio[0][x].length > 80){
+                const lista = document.createElement("option");
+                lista.textContent = x;
+                lista.value = x;
+                listaT.add(lista);
+              }else{
+                  console.log("tiene muchos caracteres");
+              }
+          }
             }else{
               const lista = document.createElement("option");
               lista.textContent = x;
