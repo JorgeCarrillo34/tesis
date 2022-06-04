@@ -928,7 +928,7 @@ function printCharts(repositorio, valor) {
       val = document.getElementById("valores").value;
 
       let titulo;
-      titulo = "Cantidad de " + nombreRepo + " por " + colT;
+      titulo = "Cantidad de " + val + " por " + colT;
       titulo = titulo.toUpperCase();
       if (
         jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
