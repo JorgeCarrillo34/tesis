@@ -598,53 +598,30 @@ function Json1() {
 
 //CARGA EL SELECT DE LOS REPOSITORIOS DE LA BASE DE DATOS Y LA PONE EN LA LISTA
 const Json = async () => {
-    //var opt= null;
+        
+  if (!document.getElementById("l1")) {
+    const lista = document.querySelector(".desaparece-1");
+    lista.setAttribute("id", "l1");
   
-    const request = await fetch(`http://localhost:19990/consultarRepos`, {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    });
-    var nuevoArray = new Array(1);
-    nuevoArray = await request.json();
-    //console.log(nuevoArray)
-  
-    if (!document.getElementById("l1")) {
-      const lista = document.querySelector(".desaparece-1");
-      lista.setAttribute("id", "l1");
-  
-      const p = document.createElement("p");
-      p.style.color = "white";
-      p.textContent = "Selecciona un repositorio para iniciar.";
-  
-      const opt = document.createElement("select");
-      opt.setAttribute("id", "repos");
-      opt.setAttribute("class", "caja dos");
-      opt.textContent = "Seleccione una opción";
-  
-      const but = document.createElement("button");
-      but.setAttribute("class", "btn btn-info btn-lg btn-set");
-      but.setAttribute("onclick", "Json2();");
-      but.setAttribute("type", "button");
-      but.textContent = "Continuar";
-  
-      lista.appendChild(p);
+    const p1 = document.createElement("p");
+    p1.style.color = "white";
+    p1.textContent = "Ingrese por favor el link JSON";
+
+    const opt = document.createElement("input");
+    opt.setAttribute("id", "linkJson");
+    opt.setAttribute("class", "caja dos");
+
+    const but = document.createElement("button");
+    but.setAttribute("onClick", "Json2();");
+    but.setAttribute("class", "btn btn-info btn-lg btn-set");
+    but.setAttribute("type", "button");
+    but.textContent = "Continuar";
+    
+      lista.appendChild(p1);
       lista.appendChild(opt);
       lista.appendChild(but);
-  
-      for (x of nuevoArray) {
-        const lista1 = document.createElement("option");
-        lista1.textContent = x.nombre_repositorio;
-        lista1.value = x.id;
-        opt.add(lista1);
-        //console.log(lista1.value);
-      }
-    }
-    //const lista = document.getElementById("repos");
-    //lista.innerHTML = "";
-    //var selectElement = document.getElementById("repos");
-  };
+  }
+};
   
   
   //SACA LOS VALORES DEL JSON FILTRADOS POR COLUMNA
