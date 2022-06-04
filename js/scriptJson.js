@@ -891,7 +891,7 @@ const Json = async () => {
         val = document.getElementById("valores").value;
   
         let titulo;
-        titulo = "Cantidad de " + nombreRepo + " por " + colT;
+        titulo = "Cantidad de datos por " + colT;
         titulo = titulo.toUpperCase();
         if (
           jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
@@ -982,7 +982,7 @@ const Json = async () => {
         }
   
         let titulo;
-        titulo = "Número de " + colN + " por " + nombreRepo;
+        titulo = colN + " por " + colT;
         titulo = titulo.toUpperCase();
         if (
           jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
@@ -1072,7 +1072,7 @@ const Json = async () => {
           " y " +
           selected[1] +
           " por " +
-          nombreRepo;
+          colT;
           titulo = titulo.toUpperCase();
         if (
           jsonCompleto.filter((eachData) => eachData[`${colT}`] === `${valor[0]}`)
