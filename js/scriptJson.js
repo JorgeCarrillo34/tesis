@@ -421,6 +421,8 @@ function sacarColum(repositorio, c) {
   
       for (x in repositorio[0]) {
   
+        if (x.startsWith("id")==true || !x.startsWith("codigo_")==true ) {
+
         //Valida que columna es la numerica
         for (let index = 0; index < 1; index++) {
            
@@ -475,7 +477,8 @@ function sacarColum(repositorio, c) {
               listaN.add(lista1);
             }
           }
-        }    
+        }  
+      }  
     }
   
       if (listaN.length == 0) {

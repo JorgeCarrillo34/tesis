@@ -139,7 +139,7 @@ function sacarColum(repositorio, c) {
 
     for (x in repositorio[0]) {
 
-      for (let index = 0; index < 1; index++) {
+       for (let index = 0; index < 1; index++) {
 
         if (isNaN(repositorio[0][x]) ) {
          //console.log("Este es el texto " + repositorio[0][x]);
@@ -151,7 +151,7 @@ function sacarColum(repositorio, c) {
             repositorio[0][x].indexOf('}') > -1 ||
             repositorio[0][x].indexOf('.') > -1 ||
             repositorio[0][x].indexOf('-') > -1 ||
-            repositorio[0][x].indexOf(',') > -1 )
+            repositorio[0][x].indexOf(',') > -1  )
             {
               //console.log(repositorio[0][x]);
               
@@ -181,9 +181,9 @@ function sacarColum(repositorio, c) {
               listaT.add(lista);
             }
         }
-      }    
+          
   }
-
+}
   }
   //LOGICA PARA 2 O 3 COLUMNAS 
   else if (c == 2 || c == 3) {
@@ -195,6 +195,9 @@ function sacarColum(repositorio, c) {
 
     for (x in repositorio[0]) {
 
+      if (x.startsWith("id")==true || !x.startsWith("codigo_")==true ) {
+        //console.log(x)
+      //}
       //Valida que columna es la numerica
       for (let index = 0; index < 1; index++) {
          
@@ -249,7 +252,8 @@ function sacarColum(repositorio, c) {
             listaN.add(lista1);
           }
         }
-      }    
+      }  
+    }  
   }
 
     if (listaN.length == 0) {
@@ -263,6 +267,7 @@ function sacarColum(repositorio, c) {
       document.getElementById("sect").style.visibility = "hidden";
     }
   }
+//  }
 }
 
 //SACA LOS VALORES DEL JSON FILTRADOS POR COLUMNA
